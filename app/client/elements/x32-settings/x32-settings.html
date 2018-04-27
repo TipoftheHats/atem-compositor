@@ -1,0 +1,166 @@
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="x32-settings">
+	<template>
+		<style include="iron-flex iron-flex-alignment">
+			:host {
+				display: block;
+				padding: 14px 28px;
+				background: #424242;
+				color: #E7E7E7;
+				font-size: 12px;
+			}
+
+			#recentConnections {
+				background: #646464;
+				border: 1px solid #2A2929;
+				margin-bottom: 8px;
+				@apply --layout-vertical;
+			}
+
+			.recentConnection {
+				height: 18px;
+				padding: 0 7px;
+				cursor: pointer;
+				@apply --layout-horizontal;
+				@apply --layout-center;
+			}
+
+			.recentConnection:nth-child(even) {
+				background: #7C7C7C;
+			}
+
+			.recentConnection-ip {
+				font-weight: bold;
+			}
+
+			.recentConnection-port {
+				font-weight: 300;
+			}
+
+			.recentConnection-timestamp {
+				margin-left: auto;
+			}
+
+			.recentConnection.iron-selected {
+				background: #00F7FF;
+				color: black;
+			}
+
+			#newConnectionInputs {
+				@apply --layout-horizontal;
+			}
+
+			#ipInput {
+				width: 113px;
+				margin-right: 5px;
+			}
+
+			#portInput {
+				width: 67px;
+			}
+
+			#buttons {
+				margin-left: auto;
+				@apply --layout-horizontal;
+			}
+
+			#buttons paper-button {
+				height: 32px;
+				flex-shrink: 0;
+				font-size: 10px;
+				color: white;
+				min-width: 0;
+			}
+
+			#connect {
+				width: 76px;
+				background-color: #27AE60;
+				margin-right: 4px;
+			}
+
+			#cancel {
+				background-color: #8F1919;
+			}
+
+			.inputGroup {
+				@apply --layout-vertical;
+			}
+
+			.inputGroup input {
+				height: 23px;
+				background: #646464;
+				border: 1px solid #2A2929;
+				color: #E7E7E7;
+				padding: 0 4px;
+				box-sizing: border-box;
+			}
+
+			.inputGroup label {
+				font-size: 10px;
+			}
+
+			label {
+				margin-left: 1px;
+			}
+
+			[hidden] {
+				display: none !important;
+			}
+		</style>
+
+		<label
+			for="recentConnections"
+			hidden="[[_calcRecentConnectionsHidden(recentConnections)]]">
+			Recent Connections
+		</label>
+		<iron-selector
+			id="recentConnections"
+		 	hidden="[[_calcRecentConnectionsHidden(recentConnections)]]"
+			on-selected-changed="_selectedRecentConnectionChanged">
+			<template is="dom-repeat" items="[[recentConnections]]">
+				<div class="recentConnection">
+					<span class="recentConnection-ip">[[item.ip]]</span>
+					<span class="recentConnection-port">:[[item.port]]</span>
+					<span class="recentConnection-timestamp">[[formatTimestamp(item.lastOpened)]]</span>
+				</div>
+			</template>
+		</iron-selector>
+
+		<div class="layout horizontal center">
+			<div>
+				<label for="newConnectionInputs">New Connection</label>
+				<div id="newConnectionInputs">
+					<div class="inputGroup">
+						<input
+							id="ipInput"
+							type="text"
+							value="{{ip::input}}"
+							on-keydown="_handleInputKeyDown">
+						<label for="ipInput">IP Address</label>
+					</div>
+
+					<div class="inputGroup">
+						<input
+							id="portInput"
+							type="number"
+							value="{{port::input}}"
+							placeholder="9910"
+							on-keydown="_handleInputKeyDown">
+						<label for="portInput">Port</label>
+					</div>
+				</div>
+			</div>
+
+			<div id="buttons">
+				<paper-button id="connect" on-tap="connect" raised>Connect</paper-button>
+				<paper-button id="cancel" on-tap="cancel" raised>Cancel</paper-button>
+			</div>
+		</div>
+	</template>
+
+	<script src="x32-settings.js"></script>
+</dom-module>

@@ -1,0 +1,84 @@
+{
+  "name": "atem-controller",
+  "version": "0.1.0",
+  "description": "An alternative, Electron-based interface for some of the functions of a Blackmagic ATEM vision mixer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run static",
+    "static": "eslint app/**/*.js app/**/*.html",
+    "postinstall": "electron-builder install-app-deps",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "start": "electron app/server/main.js --enable-logging",
+    "prerelease": "npm t",
+    "release": "standard-version",
+    "postrelease": "git push --follow-tags"
+  },
+  "standard-version": {
+    "skip": {
+      "bump": true,
+      "tag": true
+    }
+  },
+  "keywords": [
+    "atem",
+    "blackmagic",
+    "ui",
+    "interface",
+    "control",
+    "web",
+    "browser",
+    "alternative",
+    "alternate"
+  ],
+  "author": "Alex Van Camp <vancamp.alex@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^1.8.4",
+    "electron-builder": "^20.10.0",
+    "eslint": "^4.10.0",
+    "eslint-config-xo": "^0.20.1",
+    "eslint-plugin-html": "^4.0.0",
+    "standard-version": "^4.2.0"
+  },
+  "optionalDependencies": {
+    "7zip-bin-mac": "^1.0.1"
+  },
+  "build": {
+    "appId": "org.tipofthehats.atem-controller",
+    "productName": "ATEM Controller",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "tipofthehats",
+        "repo": "atem-controller"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "dmg": {
+      "iconSize": 128,
+      "contents": [
+        {
+          "x": 425,
+          "y": 200,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 120,
+          "y": 200,
+          "type": "file"
+        }
+      ]
+    },
+    "linux": {
+      "category": "Audio",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  }
+}

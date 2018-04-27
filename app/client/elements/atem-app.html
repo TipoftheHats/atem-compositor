@@ -1,0 +1,82 @@
+<link rel="import" href="../bower_components/font-roboto/roboto.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="atem-status.html">
+<link rel="import" href="atem-supersource-box-properties.html">
+
+<dom-module id="atem-app">
+	<template>
+		<style>
+			:host {
+				--primary-color: white;
+				--primary-text-color: white;
+				--secondary-text-color: #64FF6C;
+				--paper-checkbox-checkmark-color: #404040;
+				--paper-listbox-color: black;
+				@apply --layout-vertical;
+				color: white;
+				display: block;
+				font-family: Roboto, sans-serif;
+				position: relative;
+			}
+
+			#boxProperties {
+				@apply --layout-horizontal;
+			}
+
+			#status {
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			atem-supersource-box-properties {
+				margin: 0 16px;
+			}
+
+			atem-supersource-box-properties:first-of-type {
+				margin-left: 0;
+			}
+
+			atem-supersource-box-properties:last-of-type {
+				margin-right: 0;
+			}
+		</style>
+
+		<atem-status id="status"></atem-status>
+
+		<h1>Hello world.</h1>
+
+		<paper-button
+			on-tap="logAtemState"
+			raised>
+			Log ATEM State
+		</paper-button>
+
+		<div id="boxProperties">
+			<template is="dom-repeat" items="[[atemState.video.superSourceBoxes]]" as="boxState">
+				<atem-supersource-box-properties
+					box-id="[[index]]"
+					atem-state="[[atemState]]"
+					box-state="[[boxState]]">
+				</atem-supersource-box-properties>
+			</template>
+		</div>
+
+		<paper-dialog id="updateDialog" modal on-iron-overlay-closed="_handleUpdateDialogClosed">
+			<h2>Update Available</h2>
+
+			<p id="updateDialog-label"></p>
+
+			<div class="buttons">
+				<paper-button dialog-dismiss>No, Later</paper-button>
+				<paper-button dialog-confirm autofocus>Yes, Update & Restart Now</paper-button>
+			</div>
+		</paper-dialog>
+	</template>
+
+	<script src="atem-app.js"></script>
+</dom-module>

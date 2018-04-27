@@ -1,0 +1,44 @@
+osx_image: xcode8.3
+
+dist: trusty
+sudo: false
+
+language: node_js
+node_js: "8"
+
+env:
+  global:
+    - ELECTRON_CACHE=%HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+    # Deployment & code signing environment variables are declared in the project settings on Travis CI.
+
+os:
+  - linux
+  - osx
+
+cache:
+  directories:
+    - node_modules
+    - app/node_modules
+    - app/bower_components
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
+    - $HOME/.npm/_prebuilds
+
+addons:
+  apt:
+    packages:
+      - libsecret-1-0
+
+install:
+  - npm install -g bower
+  - npm install
+  - bower install
+
+script:
+  - npm test
+  - npm run dist
+
+branches:
+  except:
+    - '/^chore\(release\)/'

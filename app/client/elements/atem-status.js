@@ -1,0 +1,37 @@
+(function () {
+	'use strict';
+	const {ipcRenderer} = require('electron');
+
+	/**
+	 * @customElement
+	 * @polymer
+	 */
+	class AtemStatus extends Polymer.Element {
+		static get is() {
+			return 'atem-status';
+		}
+
+		static get properties() {
+			return {
+				status: {
+					type: String,
+					reflectToAttribute: true,
+					value: 'offline'
+				}
+			};
+		}
+
+		ready() {
+			super.ready();
+			ipcRenderer.on('atem-connection-status', (event, status) => {
+				this.status = status;
+			});
+
+			this.addEventListener('click', () => {
+				ipcRenderer.send('openConnectionWindow');
+			});
+		}
+	}
+
+	customElements.define(AtemStatus.is, AtemStatus);
+})();

@@ -1,0 +1,34 @@
+{
+  "name": "atem-controller",
+  "description": "An alternative, Electron-based interface for some of the functions of a Blackmagic ATEM vision mixer.",
+  "main": "",
+  "authors": [
+    "Alex Van Camp <email@alexvan.camp>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/client/bower_components/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.2.0",
+    "font-roboto": "PolymerElements/font-roboto#^1.0.3",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.1",
+    "paper-input": "PolymerElements/paper-input#^2.0.3",
+    "paper-button": "PolymerElements/paper-button#^2.0.0",
+    "paper-dialog": "PolymerElements/paper-dialog#^2.0.0",
+    "iron-icons": "PolymerElements/iron-icons#^2.0.1",
+    "iron-selector": "PolymerElements/iron-selector#^2.0.0",
+    "paper-checkbox": "PolymerElements/paper-checkbox#^2.0.4",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.1.0",
+    "paper-listbox": "PolymerElements/paper-listbox#^2.1.1",
+    "paper-item": "PolymerElements/paper-item#^2.1.1",
+    "web-animations-js": "web-animations/web-animations-js#^2.3.1"
+  }
+}

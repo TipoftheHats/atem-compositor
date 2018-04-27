@@ -1,0 +1,51 @@
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="atem-status">
+	<template>
+		<style>
+			:host {
+				width: 183px;
+				height: 32px;
+				box-sizing: border-box;
+				border-radius: 5px;
+				color: white;
+				font-weight: 600;
+				cursor: pointer;
+				padding: 0 8px;
+				@apply --layout-horizontal;
+				@apply --layout-center;
+			}
+
+			:host([status="connected"]) {
+				border: 2px solid #0AFF5C;
+				background: #113F17;
+				color: #0AFF5C;
+			}
+
+			:host([status="connecting"]) {
+				border: 2px solid #FFEB0A;
+				background: radial-gradient(closest-side at 54.61% 50%, #989200 0%, rgba(152, 146, 0, 0) 100%), #3F3F11;
+				color: #FFEB0A;
+			}
+
+			:host([status="offline"]) {
+				border: 2px solid #FF2020;
+				background: radial-gradient(closest-side at 54.61% 50%, rgba(255, 60, 60, 0.3) 0%, rgba(255, 60, 60, 0) 100%), #3F1111;
+				color: #FF2020;
+			}
+
+			#settingsIcon {
+				width: 17px;
+				height: 17px;
+				color: white;
+				margin-left: auto;
+			}
+		</style>
+
+		<span style="color: white;">Status:&nbsp;</span>
+		<span style="text-transform: capitalize;">[[status]]</span>
+		<iron-icon id="settingsIcon" icon="settings"></iron-icon>
+	</template>
+
+	<script src="atem-status.js"></script>
+</dom-module>

@@ -1,0 +1,37 @@
+platform:
+  - x64
+
+environment:
+  ELECTRON_CACHE: '%USERPROFILE%\.cache\electron'
+  ELECTRON_BUILDER_CACHE: '%USERPROFILE%\.cache\electron-builder'
+  # Deployment & code signing environment variables are declared in the project settings on AppVeyor.
+
+cache:
+  - node_modules
+  - 'app\node_modules'
+  - 'app\bower_components'
+  - '%USERPROFILE%\.cache\electron'
+  - '%USERPROFILE%\.cache\electron-builder'
+  - '%USERPROFILE%\.npm\_prebuilds'
+
+init:
+  - git config --global core.autocrlf input
+
+install:
+  - ps: Install-Product node 8 x64
+  - git reset --hard HEAD
+  - npm install -g bower
+  - npm install
+  - bower install
+
+build_script:
+  - node --version
+  - npm --version
+  - npm test
+  - npm run dist
+
+test: off
+
+branches:
+  except:
+    - '/^chore\(release\)/'

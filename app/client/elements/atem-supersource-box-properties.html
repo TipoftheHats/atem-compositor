@@ -1,0 +1,103 @@
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/web-animations-js/web-animations-next-lite.min.html">
+
+<dom-module id="atem-supersource-box-properties">
+	<template>
+		<style include="iron-flex iron-flex-alignment">
+			:host {
+				@apply --layout-vertical;
+			}
+		</style>
+
+		<div id="title">Box [[_addOne(boxId)]]</div>
+
+		<paper-checkbox id="enabled" checked="[[boxState.enabled]]">Enable box</paper-checkbox>
+
+		<paper-dropdown-menu label="Source">
+			<paper-listbox id="source" slot="dropdown-content" selected="[[boxState.source]]" on-selected-changed="take">
+				<template is="dom-repeat" items="[[atemState.inputs]]" as="input">
+					<paper-item>[[input.longName]]</paper-item>
+				</template>
+			</paper-listbox>
+		</paper-dropdown-menu>
+
+		<div class="layout horizontal justified">
+			<paper-input
+				id="x"
+				label="X"
+				type="number"
+				min="-48"
+				max="48"
+				step="0.01">
+			</paper-input>
+
+			<paper-input
+				id="y"
+				label="Y"
+			 	type="number"
+				min="-27"
+				max="27"
+				step="0.01">
+			</paper-input>
+		</div>
+
+		<paper-input
+			id="size"
+			label="Size"
+			type="number"
+			min="0.07"
+			max="1"
+			step="0.01">
+		</paper-input>
+
+		<paper-checkbox id="cropped" checked="[[boxState.cropped]]">Crop</paper-checkbox>
+
+		<div class="layout horizontal justified">
+			<paper-input
+				id="cropTop"
+				label="Top"
+				type="number"
+				min="0"
+				max="18"
+				step="0.01">
+			</paper-input>
+
+			<paper-input
+				id="cropBottom"
+				label="Bottom"
+				type="number"
+				min="0"
+				max="18"
+				step="0.01">
+			</paper-input>
+		</div>
+
+		<div class="layout horizontal justified">
+			<paper-input
+				id="cropLeft"
+				label="Left"
+				type="number"
+				min="0"
+				max="32"
+				step="0.01">
+			</paper-input>
+
+			<paper-input
+				id="cropRight"
+				label="Right"
+				type="number"
+				min="0"
+				max="32"
+				step="0.01">
+			</paper-input>
+		</div>
+	</template>
+
+	<script src="atem-supersource-box-properties.js"></script>
+</dom-module>
