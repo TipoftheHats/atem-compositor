@@ -73,7 +73,7 @@
 			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
 				boxId: this.boxId,
 				properties: {
-					size: 0.5
+					size: 500
 				}
 			});
 		}
@@ -82,7 +82,6 @@
 			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
 				boxId: this.boxId,
 				properties: {
-					cropped: false,
 					cropTop: 0,
 					cropBottom: 0,
 					cropLeft: 0,
