@@ -11,11 +11,11 @@
 	<template>
 		<style>
 			:host {
+				--paper-checkbox-checkmark-color: #404040;
+				--paper-listbox-color: black;
 				--primary-color: white;
 				--primary-text-color: white;
 				--secondary-text-color: #64FF6C;
-				--paper-checkbox-checkmark-color: #404040;
-				--paper-listbox-color: black;
 				@apply --layout-vertical;
 				color: white;
 				display: block;
@@ -34,14 +34,25 @@
 			}
 
 			atem-supersource-box-properties {
-				margin: 0 16px;
+				margin: 0 7px;
+				width: 280px;
 			}
 
 			atem-supersource-box-properties:first-of-type {
+				--atem-supersource-box-properties-header-color: #80A15F;
 				margin-left: 0;
 			}
 
+			atem-supersource-box-properties:nth-of-type(2) {
+				--atem-supersource-box-properties-header-color: #5FA186;
+			}
+
+			atem-supersource-box-properties:nth-of-type(3) {
+				--atem-supersource-box-properties-header-color: #5F66A1;
+			}
+
 			atem-supersource-box-properties:last-of-type {
+				--atem-supersource-box-properties-header-color: #A15F77;
 				margin-right: 0;
 			}
 		</style>
@@ -49,12 +60,6 @@
 		<atem-status id="status"></atem-status>
 
 		<h1>Hello world.</h1>
-
-		<paper-button
-			on-tap="logAtemState"
-			raised>
-			Log ATEM State
-		</paper-button>
 
 		<div id="boxProperties">
 			<template is="dom-repeat" items="[[atemState.video.superSourceBoxes]]" as="boxState">

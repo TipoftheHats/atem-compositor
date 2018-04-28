@@ -12,90 +12,172 @@
 		<style include="iron-flex iron-flex-alignment">
 			:host {
 				@apply --layout-vertical;
+				background-color: #404040;
+			}
+
+			.header {
+				--paper-checkbox-checkmark-color: #797979;
+				@apply --layout-center;
+				@apply --layout-horizontal;
+				background: #797979;
+				height: 41px;
+				padding: 0 14px;
+			}
+
+			.header-title {
+				@apply --layout-flex;
+				color: #FFFFFF;
+				font-size: 18px;
+				font-style: normal;
+				font-weight: normal;
+				line-height: normal;
+				overflow: hidden;
+				text-overflow: ellipsis;
+
+			}
+
+			#header {
+				--paper-checkbox-checkmark-color: var(--atem-supersource-box-properties-header-color);
+				background: var(--atem-supersource-box-properties-header-color);
+			}
+
+			#title {
+				font-size: 24px;
+				font-weight: 500;
+			}
+
+			#enabled {
+				@apply --layout-flex-none;
+				margin-left: 0.5em;
+			}
+
+			#body {
+				padding: 0 14px 14px;
+				@apply --layout-vertical;
+			}
+
+			#x {
+				margin-right: 6px;
+			}
+
+			#y {
+				margin: 0 6px;
+			}
+
+			#size {
+				margin-left: 6px;
+			}
+
+			#crop {
+				margin-top: 12px;
+			}
+
+			#crop-body {
+				@apply --layout-center;
+				@apply --layout-horizontal;
+				border: 1px solid #797979;
+				height: 165px;
+				padding: 0 10px 5px;
+			}
+
+			#cropLeft {
+				margin-right: 2px;
+			}
+
+			#cropRight {
+				margin-left: 2px;
 			}
 		</style>
 
-		<div id="title">Box [[_addOne(boxId)]]</div>
-
-		<paper-checkbox id="enabled" checked="[[boxState.enabled]]">Enable box</paper-checkbox>
-
-		<paper-dropdown-menu label="Source">
-			<paper-listbox id="source" slot="dropdown-content" selected="[[boxState.source]]" on-selected-changed="take">
-				<template is="dom-repeat" items="[[atemState.inputs]]" as="input">
-					<paper-item>[[input.longName]]</paper-item>
-				</template>
-			</paper-listbox>
-		</paper-dropdown-menu>
-
-		<div class="layout horizontal justified">
-			<paper-input
-				id="x"
-				label="X"
-				type="number"
-				min="-48"
-				max="48"
-				step="0.01">
-			</paper-input>
-
-			<paper-input
-				id="y"
-				label="Y"
-			 	type="number"
-				min="-27"
-				max="27"
-				step="0.01">
-			</paper-input>
+		<div id="header" class="header">
+			<div id="title" class="header-title">Box [[_addOne(boxId)]]</div>
+			<paper-checkbox id="enabled" checked="[[boxState.enabled]]"></paper-checkbox>
 		</div>
 
-		<paper-input
-			id="size"
-			label="Size"
-			type="number"
-			min="0.07"
-			max="1"
-			step="0.01">
-		</paper-input>
+		<div id="body">
+			<paper-dropdown-menu label="Source">
+				<paper-listbox id="source" slot="dropdown-content" selected="[[boxState.source]]" on-selected-changed="take">
+					<template is="dom-repeat" items="[[atemState.inputs]]" as="input">
+						<paper-item>[[input.longName]]</paper-item>
+					</template>
+				</paper-listbox>
+			</paper-dropdown-menu>
 
-		<paper-checkbox id="cropped" checked="[[boxState.cropped]]">Crop</paper-checkbox>
+			<div class="layout horizontal justified">
+				<paper-input
+					id="x"
+					label="X"
+					type="number"
+					min="-48"
+					max="48"
+					step="0.01">
+				</paper-input>
 
-		<div class="layout horizontal justified">
-			<paper-input
-				id="cropTop"
-				label="Top"
-				type="number"
-				min="0"
-				max="18"
-				step="0.01">
-			</paper-input>
+				<paper-input
+					id="y"
+					label="Y"
+					type="number"
+					min="-27"
+					max="27"
+					step="0.01">
+				</paper-input>
 
-			<paper-input
-				id="cropBottom"
-				label="Bottom"
-				type="number"
-				min="0"
-				max="18"
-				step="0.01">
-			</paper-input>
-		</div>
+				<paper-input
+					id="size"
+					label="Size"
+					type="number"
+					min="0.07"
+					max="1"
+					step="0.01">
+				</paper-input>
+			</div>
 
-		<div class="layout horizontal justified">
-			<paper-input
-				id="cropLeft"
-				label="Left"
-				type="number"
-				min="0"
-				max="32"
-				step="0.01">
-			</paper-input>
+			<div id="crop">
+				<div class="header">
+					<div class="header-title">Crop</div>
+					<paper-checkbox id="cropped" checked="[[boxState.cropped]]"></paper-checkbox>
+				</div>
 
-			<paper-input
-				id="cropRight"
-				label="Right"
-				type="number"
-				min="0"
-				max="32"
-				step="0.01">
-			</paper-input>
+				<div id="crop-body">
+					<paper-input
+						id="cropLeft"
+						label="Left"
+						type="number"
+						min="0"
+						max="32"
+						step="0.01">
+					</paper-input>
+
+					<div class="layout vertical justified self-stretch" style="margin: 0 2px;">
+						<paper-input
+							id="cropTop"
+							label="Top"
+							type="number"
+							min="0"
+							max="18"
+							step="0.01">
+						</paper-input>
+
+						<paper-input
+							id="cropBottom"
+							label="Bottom"
+							type="number"
+							min="0"
+							max="18"
+							step="0.01">
+						</paper-input>
+					</div>
+
+					<paper-input
+						id="cropRight"
+						label="Right"
+						type="number"
+						min="0"
+						max="32"
+						step="0.01">
+					</paper-input>
+				</div>
+			</div>
 		</div>
 	</template>
 

@@ -10,6 +10,18 @@ let mainWindow;
 let lastAtemStatus = '';
 let stateChangesWaiting = false;
 
+atem.socket.on('disconnect', () => {
+	setATEMConnectionStatus('offline');
+});
+
+atem.socket.on('reconnect', () => {
+	setATEMConnectionStatus('connecting');
+});
+
+atem.socket.on('connect', () => {
+	setATEMConnectionStatus('connected');
+});
+
 module.exports = {
 	async init(mw) {
 		mainWindow = mw;
@@ -20,15 +32,11 @@ module.exports = {
 
 		ipcMain.on('init', () => {
 			log.debug('Received "init" message from main window');
+			sendToMainWindow('atem-connection-status', lastAtemStatus);
 			sendToMainWindow('atem:stateChanged', atem.state);
 		});
 
-		ipcMain.on('logAtemState', () => {
-			console.log(atem.state.video);
-		});
-
 		ipcMain.on('atem:takeSuperSourceBoxProperties', (event, {boxId, properties}) => {
-			console.log(properties);
 			log.debug(`Attempting to take SSBP #${boxId}...`);
 			atem.setSuperSourceBoxSettings(properties, boxId).then(() => {
 				log.debug(`Successfully took SSBP #${boxId}`);
@@ -48,7 +56,7 @@ module.exports = {
 
 	setIpPort(ip, port) {
 		atem.connect(ip, port);
-		setX32ConnectionStatus('connecting');
+		setATEMConnectionStatus('connecting');
 		renewSubscriptions();
 	}
 };
@@ -62,14 +70,15 @@ function renewSubscriptions() {
 }
 
 function sendToMainWindow(...args) {
-	if (mainWindow.isDestroyed()) {
+	if (!mainWindow || mainWindow.isDestroyed()) {
 		return;
 	}
 
 	mainWindow.webContents.send(...args);
 }
 
-function setX32ConnectionStatus(newStatus) {
+function setATEMConnectionStatus(newStatus) {
+	console.log('setATEMConnectionStatus:', newStatus);
 	if (newStatus !== lastAtemStatus) {
 		sendToMainWindow('atem-connection-status', newStatus);
 		lastAtemStatus = newStatus;

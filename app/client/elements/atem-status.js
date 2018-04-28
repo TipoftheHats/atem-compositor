@@ -25,6 +25,7 @@
 			super.ready();
 			ipcRenderer.on('atem-connection-status', (event, status) => {
 				this.status = status;
+				console.log('new status:', status);
 			});
 
 			this.addEventListener('click', () => {

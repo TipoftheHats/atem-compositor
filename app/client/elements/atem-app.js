@@ -35,10 +35,6 @@
 			ipcRenderer.send('init');
 		}
 
-		logAtemState() {
-			ipcRenderer.send('logAtemState');
-		}
-
 		_handleUpdateDialogClosed(e) {
 			if (e.detail.confirmed) {
 				ipcRenderer.send('installUpdateNow');
