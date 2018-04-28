@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
@@ -33,7 +34,6 @@
 				line-height: normal;
 				overflow: hidden;
 				text-overflow: ellipsis;
-
 			}
 
 			#header {
@@ -52,7 +52,7 @@
 			}
 
 			#body {
-				padding: 0 14px 14px;
+				padding: 0 14px 18px;
 				@apply --layout-vertical;
 			}
 
@@ -86,6 +86,39 @@
 
 			#cropRight {
 				margin-left: 2px;
+			}
+
+			#resets {
+				@apply --layout-horizontal;
+				margin-top: 16px;
+			}
+
+			#resets paper-button {
+				@apply --layout-flex;
+				border-radius: 0;
+				font-size: 18px;
+				font-weight: 500;
+				height: 40px;
+				margin: 0 2px;
+				min-width: 0;
+				--paper-button: {
+					background-color: #A15F5F;
+					color: white;
+				}
+			}
+
+			#resets paper-button:first-of-type {
+				margin-left: 0;
+			}
+
+			#resets paper-button:last-of-type {
+				margin-right: 0;
+			}
+
+			#resetLabel {
+				font-size: 14px;
+				margin-top: 6px;
+				text-align: center;
 			}
 		</style>
 
@@ -178,6 +211,15 @@
 					</paper-input>
 				</div>
 			</div>
+
+			<div id="resets">
+				<paper-button on-tap="resetPosition">POS</paper-button>
+				<paper-button on-tap="resetSize">SIZE</paper-button>
+				<paper-button on-tap="resetCrop">CROP</paper-button>
+				<paper-button on-tap="resetAll">ALL</paper-button>
+			</div>
+
+			<div id="resetLabel">RESET</div>
 		</div>
 	</template>
 

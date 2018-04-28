@@ -59,6 +59,44 @@
 			);
 		}
 
+		resetPosition() {
+			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
+				boxId: this.boxId,
+				properties: {
+					x: 0,
+					y: 0
+				}
+			});
+		}
+
+		resetSize() {
+			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
+				boxId: this.boxId,
+				properties: {
+					size: 0.5
+				}
+			});
+		}
+
+		resetCrop() {
+			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
+				boxId: this.boxId,
+				properties: {
+					cropped: false,
+					cropTop: 0,
+					cropBottom: 0,
+					cropLeft: 0,
+					cropRight: 0
+				}
+			});
+		}
+
+		resetAll() {
+			this.resetPosition();
+			this.resetSize();
+			this.resetCrop();
+		}
+
 		_take() {
 			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
 				boxId: this.boxId,
