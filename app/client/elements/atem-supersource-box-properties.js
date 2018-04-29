@@ -108,15 +108,13 @@
 			const x = this._fooAnchorDecode(this.$.x.value, 16, this.xAnchor, this.$.size.value);
 			const y = this._fooAnchorDecode(this.$.y.value, 9, this.yAnchor, this.$.size.value);
 
-			console.log('encoded x: %s | y: %s', x, y);
-
 			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
 				boxId: this.boxId,
 				properties: {
 					source: this.$.source.selected,
 					enabled: this.$.enabled.checked,
-					x,
-					y,
+					x: Math.floor(x * 100),
+					y: Math.floor(y * 100),
 					size: this._multiplyBy1000(this.$.size.value),
 					cropped: this.$.cropped.checked,
 					cropTop: this._multiplyBy1000(this.$.cropTop.value),
@@ -198,13 +196,8 @@
 				size = parseFloat(size);
 			}
 
-			console.log(
-				'value: %s, maxValue: %s, anchor: %s, size: %s',
-				value, maxValue, anchor, size
-			);
-
-			const z1 = value - (size * maxValue * anchor);
-			const z2 = value + (size * maxValue * (1 - anchor));
+			const z1 = value - (size * (maxValue * 2) * anchor);
+			const z2 = value + (size * (maxValue * 2) * (1 - anchor));
 			return (z1 + z2) / 2;
 		}
 	}
