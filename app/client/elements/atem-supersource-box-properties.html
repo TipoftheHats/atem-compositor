@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/web-animations-js/web-animations-next-lite.min.html">
 <link rel="import" href="atem-anchor-selector.html">
 
@@ -57,6 +58,12 @@
 				@apply --layout-vertical;
 			}
 
+			#x,
+			#y,
+			#size {
+				@apply --layout-flex;
+			}
+
 			#x {
 				margin-right: 6px;
 			}
@@ -67,6 +74,14 @@
 
 			#size {
 				margin-left: 6px;
+			}
+
+			#sizePixels {
+				bottom: -11px;
+				font-size: 14px;
+				opacity: 0.8;
+				position: absolute;
+				right: 0;
 			}
 
 			#crop {
@@ -141,23 +156,25 @@
 				</paper-listbox>
 			</paper-dropdown-menu>
 
-			<div class="layout horizontal justified">
+			<paper-toggle-button checked="{{usePixelValues}}">Use Pixel Values</paper-toggle-button>
+
+			<div class="layout horizontal justified" style="position: relative;">
 				<paper-input
 					id="x"
 					label="X"
 					type="number"
-					min="-48"
-					max="48"
-					step="0.01">
+					min="[[_ternary(usePixelValues, -3840, -48)]]"
+					max="[[_ternary(usePixelValues, 3840, 48)]]"
+					step="[[_ternary(usePixelValues, 1, 0.01)]]">
 				</paper-input>
 
 				<paper-input
 					id="y"
 					label="Y"
 					type="number"
-					min="-27"
-					max="27"
-					step="0.01">
+					min="[[_ternary(usePixelValues, -2160, -27)]]"
+					max="[[_ternary(usePixelValues, 2160, 27)]]"
+					step="[[_ternary(usePixelValues, 1, 0.01)]]">
 				</paper-input>
 
 				<paper-input
@@ -168,6 +185,8 @@
 					max="1"
 					step="0.001">
 				</paper-input>
+
+				<div id="sizePixels">[[_calcSizePixels(boxState.size)]]</div>
 			</div>
 
 			<atem-anchor-selector

@@ -7,6 +7,10 @@
 	const DEFAULT_ANCHOR = 0.5;
 	const DEFAULT_SIZE = 0.5;
 	const VIDEO_MODE_1080P5994 = 13;
+	const PIXEL_HEIGHT = 1080;
+	const PIXEL_WIDTH = 1920;
+	const ATEM_WIDTH = 48;
+	const ATEM_HEIGHT = 27;
 
 	const awaitingBlur = new Map();
 
@@ -29,13 +33,17 @@
 					value: VIDEO_MODE_1080P5994
 				},
 				xAnchor: Number,
-				yAnchor: Number
+				yAnchor: Number,
+				usePixelValues: {
+					type: Boolean,
+					value: true
+				}
 			};
 		}
 
 		static get observers() {
 			return [
-				'_boxStateChanged(boxState.*, xAnchor, yAnchor)'
+				'_boxStateChanged(boxState.*, usePixelValues, xAnchor, yAnchor)'
 			];
 		}
 
@@ -112,13 +120,25 @@
 				return;
 			}
 
+			let x = this.$.x.value;
+			let y = this.$.y.value;
+
+			if (this.usePixelValues) {
+				x = convertRange(x, [-PIXEL_WIDTH, PIXEL_WIDTH * 2], [-ATEM_WIDTH, ATEM_WIDTH]);
+				y = convertRange(y, [-PIXEL_HEIGHT, PIXEL_HEIGHT * 2], [ATEM_HEIGHT, -ATEM_HEIGHT]);
+				console.log('converted x: %s, converted y: %s', x, y);
+			}
+
+			x = this.anchorDecode(x, 16, this.xAnchor, this.$.size.value);
+			y = this.anchorDecode(y, 9, this.yAnchor, this.$.size.value);
+
 			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
 				boxId: this.boxId,
 				properties: {
 					source: this.$.source.selected,
 					enabled: this.$.enabled.checked,
-					x: this._fooAnchorDecode(this.$.x.value, 16, this.xAnchor, this.$.size.value),
-					y: this._fooAnchorDecode(this.$.y.value, 9, this.yAnchor, this.$.size.value),
+					x,
+					y,
 					size: this._multiplyBy1000(this.$.size.value),
 					cropped: this.$.cropped.checked,
 					cropTop: this._multiplyBy1000(this.$.cropTop.value),
@@ -135,8 +155,19 @@
 			}
 
 			const newState = this.boxState;
-			this._setInputValue(this.$.x, this._fooAnchorEncode(newState.x, 16, this.xAnchor, newState.size));
-			this._setInputValue(this.$.y, this._fooAnchorEncode(newState.y, 9, this.yAnchor, newState.size));
+
+			let x = this.anchorEncode(newState.x, 16, this.xAnchor, newState.size);
+			if (this.usePixelValues) {
+				x = convertRange(x, [-ATEM_WIDTH, ATEM_WIDTH], [-PIXEL_WIDTH, PIXEL_WIDTH * 2]);
+			}
+
+			let y = this.anchorEncode(newState.y, 9, this.yAnchor, newState.size);
+			if (this.usePixelValues) {
+				y = convertRange(y, [ATEM_HEIGHT, -ATEM_HEIGHT], [-PIXEL_HEIGHT, PIXEL_HEIGHT * 2]);
+			}
+
+			this._setInputValue(this.$.x, x);
+			this._setInputValue(this.$.y, y);
 			this._setInputValue(this.$.size, this._divideBy1000(newState.size));
 			this._setInputValue(this.$.cropTop, this._divideBy1000(newState.cropTop));
 			this._setInputValue(this.$.cropBottom, this._divideBy1000(newState.cropBottom));
@@ -187,7 +218,17 @@
 			input.value = newValue;
 		}
 
-		_fooAnchorEncode(value, maxValue, anchor = DEFAULT_ANCHOR, size = DEFAULT_SIZE) {
+		_ternary(condition, a, b) {
+			return condition ? a : b;
+		}
+
+		_calcSizePixels(size) {
+			const width = new Decimal(1920).times(size).dividedBy(1000);
+			const height = new Decimal(1080).times(size).dividedBy(1000);
+			return `${width.toDecimalPlaces(0)}x${height.toDecimalPlaces(0)}`;
+		}
+
+		anchorEncode(value, maxValue, anchor = DEFAULT_ANCHOR, size = DEFAULT_SIZE) {
 			value = new Decimal(value);
 			anchor = new Decimal(anchor);
 			size = new Decimal(size).dividedBy(10);
@@ -196,7 +237,7 @@
 			return result.dividedBy(100).toDecimalPlaces(2).toNumber();
 		}
 
-		_fooAnchorDecode(value, maxValue, anchor = DEFAULT_ANCHOR, size = DEFAULT_SIZE) {
+		anchorDecode(value, maxValue, anchor = DEFAULT_ANCHOR, size = DEFAULT_SIZE) {
 			const one = new Decimal(1);
 			value = new Decimal(value);
 			anchor = new Decimal(anchor);
@@ -209,17 +250,24 @@
 		}
 	}
 
-	function convertRange(value, r1, r2) { // eslint-disable-line no-unused-vars
+	function convertRange(value, fromRange, toRange) { // eslint-disable-line no-unused-vars
 		if (typeof value === 'string') {
 			value = parseFloat(value);
 		}
 
-		const result = (
-			(value - r1[0]) *
-			(r2[1] - r2[0]) / (r1[1] - r1[0])
-		) + r2[0];
+		value = new Decimal(value);
+		const fr0 = new Decimal(fromRange[0]);
+		const fr1 = new Decimal(fromRange[1]);
+		const tr0 = new Decimal(toRange[0]);
+		const tr1 = new Decimal(toRange[1]);
 
-		return Math.floor(result);
+		const result = (
+			value
+				.minus(fr0)
+				.times(tr1.minus(tr0).dividedBy(fr1.minus(fr0)))
+		).plus(tr0);
+
+		return result.toDecimalPlaces(2).toNumber();
 	}
 
 	customElements.define(AtemSupersourceBoxProperties.is, AtemSupersourceBoxProperties);
