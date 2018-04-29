@@ -2,9 +2,11 @@
 	'use strict';
 
 	const {ipcRenderer} = require('electron');
-	const VIDEO_MODE_1080P5994 = 13;
-	const DEFAULT_SIZE = 0.5;
+	const Decimal = require('decimal.js');
+
 	const DEFAULT_ANCHOR = 0.5;
+	const DEFAULT_SIZE = 0.5;
+	const VIDEO_MODE_1080P5994 = 13;
 
 	const awaitingBlur = new Map();
 
@@ -105,16 +107,18 @@
 				return;
 			}
 
-			const x = this._fooAnchorDecode(this.$.x.value, 16, this.xAnchor, this.$.size.value);
-			const y = this._fooAnchorDecode(this.$.y.value, 9, this.yAnchor, this.$.size.value);
+			if (this.$.x.value === '-' || this.$.x.value === '' ||
+				this.$.y.value === '-' || this.$.y.value === '') {
+				return;
+			}
 
 			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
 				boxId: this.boxId,
 				properties: {
 					source: this.$.source.selected,
 					enabled: this.$.enabled.checked,
-					x: Math.floor(x * 100),
-					y: Math.floor(y * 100),
+					x: this._fooAnchorDecode(this.$.x.value, 16, this.xAnchor, this.$.size.value),
+					y: this._fooAnchorDecode(this.$.y.value, 9, this.yAnchor, this.$.size.value),
 					size: this._multiplyBy1000(this.$.size.value),
 					cropped: this.$.cropped.checked,
 					cropTop: this._multiplyBy1000(this.$.cropTop.value),
@@ -131,8 +135,8 @@
 			}
 
 			const newState = this.boxState;
-			this._setInputValue(this.$.x, this._fooAnchorEncode(newState.x, 16, this.xAnchor, newState.size / 10) / 100);
-			this._setInputValue(this.$.y, this._fooAnchorEncode(newState.y, 9, this.yAnchor, newState.size / 10) / 100);
+			this._setInputValue(this.$.x, this._fooAnchorEncode(newState.x, 16, this.xAnchor, newState.size));
+			this._setInputValue(this.$.y, this._fooAnchorEncode(newState.y, 9, this.yAnchor, newState.size));
 			this._setInputValue(this.$.size, this._divideBy1000(newState.size));
 			this._setInputValue(this.$.cropTop, this._divideBy1000(newState.cropTop));
 			this._setInputValue(this.$.cropBottom, this._divideBy1000(newState.cropBottom));
@@ -184,21 +188,24 @@
 		}
 
 		_fooAnchorEncode(value, maxValue, anchor = DEFAULT_ANCHOR, size = DEFAULT_SIZE) {
-			return value - (size * maxValue) + (size * (maxValue * 2) * anchor);
+			value = new Decimal(value);
+			anchor = new Decimal(anchor);
+			size = new Decimal(size).dividedBy(10);
+
+			const result = value.minus(size.times(maxValue)).plus(size.times(maxValue * 2).times(anchor));
+			return result.dividedBy(100).toDecimalPlaces(2).toNumber();
 		}
 
 		_fooAnchorDecode(value, maxValue, anchor = DEFAULT_ANCHOR, size = DEFAULT_SIZE) {
-			if (typeof value === 'string') {
-				value = parseFloat(value);
-			}
+			const one = new Decimal(1);
+			value = new Decimal(value);
+			anchor = new Decimal(anchor);
+			size = new Decimal(size);
 
-			if (typeof size === 'string') {
-				size = parseFloat(size);
-			}
-
-			const z1 = value - (size * (maxValue * 2) * anchor);
-			const z2 = value + (size * (maxValue * 2) * (1 - anchor));
-			return (z1 + z2) / 2;
+			const z1 = value.minus(size.times(maxValue * 2).times(anchor));
+			const z2 = value.plus(size.times(maxValue * 2).times(one.minus(anchor)));
+			const result = z1.plus(z2).dividedBy(2);
+			return result.times(100).toDecimalPlaces(0).toNumber();
 		}
 	}
 
