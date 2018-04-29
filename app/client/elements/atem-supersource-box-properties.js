@@ -131,8 +131,8 @@
 			}
 
 			const newState = this.boxState;
-			this._setInputValue(this.$.x, this._fooAnchorEncode(newState.x / 100, 16, this.xAnchor, newState.size / 1000));
-			this._setInputValue(this.$.y, this._fooAnchorEncode(newState.y / 100, 9, this.yAnchor, newState.size / 1000));
+			this._setInputValue(this.$.x, this._fooAnchorEncode(newState.x, 16, this.xAnchor, newState.size / 10) / 100);
+			this._setInputValue(this.$.y, this._fooAnchorEncode(newState.y, 9, this.yAnchor, newState.size / 10) / 100);
 			this._setInputValue(this.$.size, this._divideBy1000(newState.size));
 			this._setInputValue(this.$.cropTop, this._divideBy1000(newState.cropTop));
 			this._setInputValue(this.$.cropBottom, this._divideBy1000(newState.cropBottom));
