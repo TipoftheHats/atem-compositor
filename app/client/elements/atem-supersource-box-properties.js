@@ -77,7 +77,7 @@
 			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
 				boxId: this.boxId,
 				properties: {
-					size: this._multiplyBy100(DEFAULT_SIZE)
+					size: this._multiplyBy1000(DEFAULT_SIZE)
 				}
 			});
 		}
