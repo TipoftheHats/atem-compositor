@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/web-animations-js/web-animations-next-lite.min.html">
+<link rel="import" href="atem-anchor-selector.html">
 
 <dom-module id="atem-supersource-box-properties">
 	<template>
@@ -69,7 +70,7 @@
 			}
 
 			#crop {
-				margin-top: 12px;
+				margin-top: 18px;
 			}
 
 			#crop-body {
@@ -120,6 +121,10 @@
 				margin-top: 6px;
 				text-align: center;
 			}
+
+			atem-anchor-selector {
+				margin-top: 8px;
+			}
 		</style>
 
 		<div id="header" class="header">
@@ -164,6 +169,11 @@
 					step="0.01">
 				</paper-input>
 			</div>
+
+			<atem-anchor-selector
+				x-anchor="{{xAnchor}}"
+				y-anchor="{{yAnchor}}">
+			</atem-anchor-selector>
 
 			<div id="crop">
 				<div class="header">

@@ -3,6 +3,8 @@
 
 	const {ipcRenderer} = require('electron');
 	const VIDEO_MODE_1080P5994 = 13;
+	const DEFAULT_SIZE = 0.5;
+	const DEFAULT_ANCHOR = 0.5;
 
 	const awaitingBlur = new Map();
 
@@ -23,13 +25,15 @@
 				videoMode: {
 					type: Number,
 					value: VIDEO_MODE_1080P5994
-				}
+				},
+				xAnchor: Number,
+				yAnchor: Number
 			};
 		}
 
 		static get observers() {
 			return [
-				'_boxStateChanged(boxState.*)'
+				'_boxStateChanged(boxState.*, xAnchor, yAnchor)'
 			];
 		}
 
@@ -73,7 +77,7 @@
 			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
 				boxId: this.boxId,
 				properties: {
-					size: 500
+					size: this._multiplyBy100(DEFAULT_SIZE)
 				}
 			});
 		}
@@ -97,27 +101,40 @@
 		}
 
 		_take() {
+			if (this.xAnchor === 'undefined' || this.yAnchor === 'undefined') {
+				return;
+			}
+
+			const x = this._fooAnchorDecode(this.$.x.value, 16, this.xAnchor, this.$.size.value);
+			const y = this._fooAnchorDecode(this.$.y.value, 9, this.yAnchor, this.$.size.value);
+
+			console.log('encoded x: %s | y: %s', x, y);
+
 			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
 				boxId: this.boxId,
 				properties: {
 					source: this.$.source.selected,
 					enabled: this.$.enabled.checked,
-					x: this._undoDivideBy100(this.$.x.value),
-					y: this._undoDivideBy100(this.$.y.value),
-					size: this._undoDivideBy1000(this.$.size.value),
+					x,
+					y,
+					size: this._multiplyBy1000(this.$.size.value),
 					cropped: this.$.cropped.checked,
-					cropTop: this._undoDivideBy1000(this.$.cropTop.value),
-					cropBottom: this._undoDivideBy1000(this.$.cropBottom.value),
-					cropLeft: this._undoDivideBy1000(this.$.cropLeft.value),
-					cropRight: this._undoDivideBy1000(this.$.cropRight.value)
+					cropTop: this._multiplyBy1000(this.$.cropTop.value),
+					cropBottom: this._multiplyBy1000(this.$.cropBottom.value),
+					cropLeft: this._multiplyBy1000(this.$.cropLeft.value),
+					cropRight: this._multiplyBy1000(this.$.cropRight.value)
 				}
 			});
 		}
 
 		_boxStateChanged() {
+			if (!this.boxState || this.xAnchor === 'undefined' || this.yAnchor === 'undefined') {
+				return;
+			}
+
 			const newState = this.boxState;
-			this._setInputValue(this.$.x, this._divideBy100(newState.x));
-			this._setInputValue(this.$.y, this._divideBy100(newState.y));
+			this._setInputValue(this.$.x, this._fooAnchorEncode(newState.x / 100, 16, this.xAnchor, newState.size / 1000));
+			this._setInputValue(this.$.y, this._fooAnchorEncode(newState.y / 100, 9, this.yAnchor, newState.size / 1000));
 			this._setInputValue(this.$.size, this._divideBy1000(newState.size));
 			this._setInputValue(this.$.cropTop, this._divideBy1000(newState.cropTop));
 			this._setInputValue(this.$.cropBottom, this._divideBy1000(newState.cropBottom));
@@ -137,11 +154,11 @@
 			return number / 1000;
 		}
 
-		_undoDivideBy100(number) {
+		_multiplyBy100(number) {
 			return Math.floor(number * 100);
 		}
 
-		_undoDivideBy1000(number) {
+		_multiplyBy1000(number) {
 			return Math.floor(number * 1000);
 		}
 
@@ -166,6 +183,29 @@
 			}
 
 			input.value = newValue;
+		}
+
+		_fooAnchorEncode(value, maxValue, anchor = DEFAULT_ANCHOR, size = DEFAULT_SIZE) {
+			return value - (size * maxValue) + (size * (maxValue * 2) * anchor);
+		}
+
+		_fooAnchorDecode(value, maxValue, anchor = DEFAULT_ANCHOR, size = DEFAULT_SIZE) {
+			if (typeof value === 'string') {
+				value = parseFloat(value);
+			}
+
+			if (typeof size === 'string') {
+				size = parseFloat(size);
+			}
+
+			console.log(
+				'value: %s, maxValue: %s, anchor: %s, size: %s',
+				value, maxValue, anchor, size
+			);
+
+			const z1 = value - (size * maxValue * anchor);
+			const z2 = value + (size * maxValue * (1 - anchor));
+			return (z1 + z2) / 2;
 		}
 	}
 

@@ -1,0 +1,102 @@
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+
+<dom-module id="atem-anchor-selector">
+	<template>
+		<style>
+			:host {
+				@apply --layout-horizontal;
+			}
+
+			#grid-bg {
+				position: absolute;
+				top: 6px;
+				left: 6px;
+				width: 45px;
+				height: 45px;
+				border: 1px solid #C4C4C4;
+				box-sizing: border-box;
+			}
+
+			#grid {
+				@apply --layout-vertical;
+				position: relative;
+				z-index: 1;
+			}
+
+			#label {
+				@apply --layout-vertical;
+				margin-left: 14px;
+				margin-top: -3px;
+			}
+
+			#label-top {
+				font-size: 14px;
+			}
+
+			#label-bottom {
+				font-weight: 500;
+				font-size: 24px;
+			}
+
+			.grid-row {
+				@apply --layout-horizontal;
+				z-index: 1;
+			}
+
+			.grid-row:nth-child(2) {
+				margin: 9px 0;
+			}
+
+			.grid-point {
+				background: #404040;
+				border: 1px solid #C4C4C4;
+				box-sizing: border-box;
+				height: 13px;
+				width: 13px;
+			}
+
+			.grid-point:not(.iron-selected) {
+				cursor: pointer;
+			}
+
+			.grid-point:nth-child(2) {
+				margin: 0 9px;
+			}
+
+			.grid-point.iron-selected {
+				background: #C4C4C4;
+			}
+		</style>
+
+		<!-- Workaround for https://github.com/PolymerElements/iron-selector/issues/42 -->
+		<div id="grid">
+			<iron-selector class="grid-row" selected="{{selected}}" attr-for-selected="data-point">
+				<div class="grid-point" data-point="top-left"></div>
+				<div class="grid-point" data-point="top-center"></div>
+				<div class="grid-point" data-point="top-right"></div>
+			</iron-selector>
+
+			<iron-selector class="grid-row" selected="{{selected}}" attr-for-selected="data-point">
+				<div class="grid-point" data-point="center-left"></div>
+				<div class="grid-point" data-point="center-center"></div>
+				<div class="grid-point" data-point="center-right"></div>
+			</iron-selector>
+
+			<iron-selector class="grid-row" selected="{{selected}}" attr-for-selected="data-point">
+				<div class="grid-point" data-point="bottom-left"></div>
+				<div class="grid-point" data-point="bottom-center"></div>
+				<div class="grid-point" data-point="bottom-right"></div>
+			</iron-selector>
+
+			<div id="grid-bg"></div>
+		</div>
+
+		<div id="label">
+			<div id="label-top">Anchor Point</div>
+			<div id="label-bottom">[[_calcPrettyLabel(selected)]]</div>
+		</div>
+	</template>
+
+	<script src="atem-anchor-selector.js"></script>
+</dom-module>
