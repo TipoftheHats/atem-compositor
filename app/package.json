@@ -4,7 +4,7 @@
   "description": "An alternative, Electron-based interface for some of the functions of a Blackmagic ATEM vision mixer.",
   "homepage": "https://github.com/tipofthehats/atem-controller",
   "dependencies": {
-    "atem-connection": "github:nrkno/tv-automation-atem-connection#f3bc87933899d1deec5d6560f6357692673ec98f",
+    "atem-connection": "github:nrkno/tv-automation-atem-connection#c18a70a93f00baff2dddfdabd9076a634a9b1bf3",
     "decimal.js": "^10.0.0",
     "electron-debug": "^1.0.0",
     "electron-is-dev": "^0.3.0",

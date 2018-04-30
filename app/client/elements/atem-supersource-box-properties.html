@@ -123,9 +123,14 @@
 
 		<div id="body">
 			<paper-dropdown-menu label="Source">
-				<paper-listbox id="source" slot="dropdown-content" selected="[[boxState.source]]" on-selected-changed="take">
+				<paper-listbox
+					id="source"
+					slot="dropdown-content"
+					attr-for-selected="data-value"
+					selected="[[boxState.source]]"
+					on-selected-changed="take">
 					<template is="dom-repeat" items="[[atemState.inputs]]" as="input">
-						<paper-item>[[input.longName]]</paper-item>
+						<paper-item data-value$="[[input.inputId]]">[[input.longName]]</paper-item>
 					</template>
 				</paper-listbox>
 			</paper-dropdown-menu>

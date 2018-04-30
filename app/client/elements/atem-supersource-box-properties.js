@@ -134,7 +134,7 @@
 			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
 				boxId: this.boxId,
 				properties: {
-					source: this.$.source.selected,
+					source: parseInt(this.$.source.selected, 10),
 					enabled: this.$.enabled.checked,
 					x,
 					y,
