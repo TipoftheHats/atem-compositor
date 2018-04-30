@@ -81,7 +81,5 @@
       ]
     }
   },
-  "dependencies": {
-    "decimal.js": "^10.0.0"
-  }
+  "dependencies": {}
 }
