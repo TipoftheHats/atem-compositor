@@ -4,30 +4,16 @@
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../style/atem-controller-theme.html">
 <link rel="import" href="atem-status.html">
 <link rel="import" href="atem-supersource-box-properties.html">
 
 <dom-module id="atem-app">
 	<template>
-		<style>
+		<style include="atem-controller-theme">
 			:host {
-				--paper-checkbox-checkmark-color: #404040;
-				--paper-listbox-color: black;
-				--primary-color: white;
-				--primary-text-color: white;
-				--secondary-text-color: #64FF6C;
-
-				--paper-toggle-button-checked-bar-color: rgba(100,255,108, 0.5);
-				--paper-toggle-button-checked-button-color: #64FF6C;
-				--paper-toggle-button-checked-ink-color: #64FF6C;
-				--paper-toggle-button-label-color: white;
-				--paper-toggle-button-unchecked-bar-color: #000000;
-				--paper-toggle-button-unchecked-button-color: #7f7f7f;
-
 				@apply --layout-vertical;
-				color: white;
 				display: block;
-				font-family: Roboto, sans-serif;
 				position: relative;
 			}
 

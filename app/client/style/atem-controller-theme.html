@@ -1,0 +1,125 @@
+<dom-module id="atem-controller-theme">
+	<template>
+		<style>
+			:host {
+				color: white;
+				font-family: Roboto, sans-serif;
+
+				--atem-accept-color: #32784A;
+				--atem-benign-color: #525F78;
+				--atem-configure-color: #6155BD;
+				--atem-danger-color: #CF7E44;
+				--atem-disabled-color: #8D8E91;
+				--atem-execute-color: #FFC700;
+				--atem-reject-color: #A33B3B;
+				--atem-selected-color: #5280D9;
+
+				--paper-checkbox-checkmark-color: #404040;
+				--paper-listbox-color: black;
+				--primary-color: white;
+				--primary-text-color: white;
+				--secondary-text-color: #64FF6C;
+
+				--paper-toggle-button-checked-bar-color: rgba(100,255,108, 0.5);
+				--paper-toggle-button-checked-button-color: #64FF6C;
+				--paper-toggle-button-checked-ink-color: #64FF6C;
+				--paper-toggle-button-label-color: white;
+				--paper-toggle-button-unchecked-bar-color: #000000;
+				--paper-toggle-button-unchecked-button-color: #7f7f7f;
+
+				--paper-input-container: {
+					--paper-input-container-color: #64FF6C;
+					--paper-input-container-focus-color: white;
+					--paper-input-container-input-color: white;
+				};
+
+				--paper-input-suffix: {
+					color: #64FF6C;
+				};
+
+				--paper-dropdown-menu-icon: {
+					color: #64FF6C;
+				};
+			}
+
+			vaadin-combo-box,
+			atem-entrant-input {
+				--iron-icon-fill-color: #64FF6C;
+				--paper-input-suffix: {
+					height: 24px;
+					transform: translateY(-2px);
+				};
+			}
+
+			paper-button {
+				background: var(--atem-background-color);
+				border-radius: 0;
+				color: var(--atem-foreground-color, white);
+				font-size: 16px;
+				font-weight: 300;
+			}
+
+			paper-button.atem-accept {
+				--atem-background-color: var(--atem-accept-color);
+			}
+
+			paper-button.atem-benign {
+				--atem-background-color: var(--atem-benign-color);
+			}
+
+			paper-button.atem-configure {
+				--atem-background-color: var(--atem-configure-color);
+			}
+
+			paper-button.atem-danger {
+				--atem-background-color: var(--atem-danger-color);
+			}
+
+			paper-button.atem-execute {
+				--atem-background-color: var(--atem-execute-color);
+				--atem-foreground-color: black;
+			}
+
+			paper-button.atem-reject {
+				--atem-background-color: var(--atem-reject-color);
+			}
+
+			paper-button.atem-selected {
+				--atem-background-color: var(--atem-selected-color);
+			}
+
+			paper-button[disabled] {
+				--atem-background-color: var(--atem-disabled-color);
+				color: #54575C;
+			}
+
+			.atem-tagged {
+				background: linear-gradient(
+					var(--atem-tag-gradient-direction, to right),
+					var(--atem-tag-color) var(--atem-tag-width, 9px),
+					var(--atem-background-color) calc(var(--atem-tag-width, 9px) + 1px)
+				)
+			}
+
+			.header {
+				--paper-checkbox-checkmark-color: #797979;
+				@apply --layout-center;
+				@apply --layout-horizontal;
+				background: #797979;
+				height: 41px;
+				padding: 0 14px;
+			}
+
+			.header-title {
+				@apply --layout-flex;
+				color: #FFFFFF;
+				font-size: 18px;
+				font-style: normal;
+				font-weight: normal;
+				line-height: normal;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		</style>
+	</template>
+</dom-module>

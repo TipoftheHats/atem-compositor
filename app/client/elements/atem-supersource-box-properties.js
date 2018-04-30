@@ -126,7 +126,6 @@
 			if (this.usePixelValues) {
 				x = convertRange(x, [-PIXEL_WIDTH, PIXEL_WIDTH * 2], [-ATEM_WIDTH, ATEM_WIDTH]);
 				y = convertRange(y, [-PIXEL_HEIGHT, PIXEL_HEIGHT * 2], [ATEM_HEIGHT, -ATEM_HEIGHT]);
-				console.log('converted x: %s, converted y: %s', x, y);
 			}
 
 			x = this.anchorDecode(x, 16, this.xAnchor, this.$.size.value);
@@ -140,11 +139,11 @@
 					x,
 					y,
 					size: this._multiplyBy1000(this.$.size.value),
-					cropped: this.$.cropped.checked,
-					cropTop: this._multiplyBy1000(this.$.cropTop.value),
-					cropBottom: this._multiplyBy1000(this.$.cropBottom.value),
-					cropLeft: this._multiplyBy1000(this.$.cropLeft.value),
-					cropRight: this._multiplyBy1000(this.$.cropRight.value)
+					cropped: this.$.crop.enabled,
+					cropTop: this._multiplyBy1000(this.$.crop.top),
+					cropBottom: this._multiplyBy1000(this.$.crop.bottom),
+					cropLeft: this._multiplyBy1000(this.$.crop.left),
+					cropRight: this._multiplyBy1000(this.$.crop.right)
 				}
 			});
 		}
@@ -169,10 +168,10 @@
 			this._setInputValue(this.$.x, x);
 			this._setInputValue(this.$.y, y);
 			this._setInputValue(this.$.size, this._divideBy1000(newState.size));
-			this._setInputValue(this.$.cropTop, this._divideBy1000(newState.cropTop));
-			this._setInputValue(this.$.cropBottom, this._divideBy1000(newState.cropBottom));
-			this._setInputValue(this.$.cropLeft, this._divideBy1000(newState.cropLeft));
-			this._setInputValue(this.$.cropRight, this._divideBy1000(newState.cropRight));
+			this._setInputValue(this.$.crop.$.top, this._divideBy1000(newState.cropTop));
+			this._setInputValue(this.$.crop.$.bottom, this._divideBy1000(newState.cropBottom));
+			this._setInputValue(this.$.crop.$.left, this._divideBy1000(newState.cropLeft));
+			this._setInputValue(this.$.crop.$.right, this._divideBy1000(newState.cropRight));
 		}
 
 		_addOne(number) {

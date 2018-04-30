@@ -1,0 +1,92 @@
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../style/atem-controller-theme.html">
+
+<dom-module id="atem-crop">
+	<template>
+		<style include="atem-controller-theme">
+			:host {
+				display: block;
+			}
+
+			#body {
+				@apply --layout-center;
+				@apply --layout-horizontal;
+				border: 1px solid #797979;
+				height: 165px;
+				padding: 0 10px 5px;
+			}
+
+			#left {
+				margin-right: 2px;
+			}
+
+			#right {
+				margin-left: 2px;
+			}
+
+			#verticalCrops {
+				@apply --layout-justified;
+				@apply --layout-self-stretch;
+				@apply --layout-vertical;
+				margin: 0 2px;
+			}
+
+			[hidden] {
+				display: none !important
+			}
+		</style>
+
+		<div id="header" class="header">
+			<div class="header-title">[[title]]</div>
+			<paper-checkbox id="cropped" checked="{{enabled}}"></paper-checkbox>
+		</div>
+
+		<div id="body">
+			<paper-input
+				id="left"
+				label="Left"
+				type="number"
+				min="[[sideMin]]"
+				max="[[sideMax]]"
+				step="0.01"
+				value="{{left}}">
+			</paper-input>
+
+			<div id="verticalCrops">
+				<paper-input
+					id="top"
+					label="Top"
+					type="number"
+					min="[[endMin]]"
+					max="[[endMax]]"
+					step="0.01"
+					value="{{top}}">
+				</paper-input>
+
+				<paper-input
+					id="bottom"
+					label="Bottom"
+					type="number"
+					min="[[endMin]]"
+					max="[[endMax]]"
+					step="0.01"
+					value="{{bottom}}">
+				</paper-input>
+			</div>
+
+			<paper-input
+				id="right"
+				label="Right"
+				type="number"
+				min="[[sideMin]]"
+				max="[[sideMax]]"
+				step="0.01"
+				value="{{right}}">
+			</paper-input>
+		</div>
+	</template>
+
+	<script src="atem-crop.js"></script>
+</dom-module>

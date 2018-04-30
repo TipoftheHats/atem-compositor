@@ -6,36 +6,19 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/web-animations-js/web-animations-next-lite.min.html">
+<link rel="import" href="../style/atem-controller-theme.html">
 <link rel="import" href="atem-anchor-selector.html">
+<link rel="import" href="atem-crop.html">
 
 <dom-module id="atem-supersource-box-properties">
 	<template>
-		<style include="iron-flex iron-flex-alignment">
+		<style include="iron-flex iron-flex-alignment atem-controller-theme">
 			:host {
 				@apply --layout-vertical;
 				background-color: #404040;
-			}
-
-			.header {
-				--paper-checkbox-checkmark-color: #797979;
-				@apply --layout-center;
-				@apply --layout-horizontal;
-				background: #797979;
-				height: 41px;
-				padding: 0 14px;
-			}
-
-			.header-title {
-				@apply --layout-flex;
-				color: #FFFFFF;
-				font-size: 18px;
-				font-style: normal;
-				font-weight: normal;
-				line-height: normal;
-				overflow: hidden;
-				text-overflow: ellipsis;
 			}
 
 			#header {
@@ -94,28 +77,13 @@
 				margin-top: 18px;
 			}
 
-			#crop-body {
-				@apply --layout-center;
-				@apply --layout-horizontal;
-				border: 1px solid #797979;
-				height: 165px;
-				padding: 0 10px 5px;
-			}
-
-			#cropLeft {
-				margin-right: 2px;
-			}
-
-			#cropRight {
-				margin-left: 2px;
-			}
-
 			#resets {
 				@apply --layout-horizontal;
 				margin-top: 16px;
 			}
 
 			#resets paper-button {
+				--atem-background-color: #A15F5F;
 				@apply --layout-flex;
 				border-radius: 0;
 				font-size: 18px;
@@ -123,10 +91,6 @@
 				height: 40px;
 				margin: 0 2px;
 				min-width: 0;
-				--paper-button: {
-					background-color: #A15F5F;
-					color: white;
-				}
 			}
 
 			#resets paper-button:first-of-type {
@@ -204,52 +168,15 @@
 				y-anchor="{{yAnchor}}">
 			</atem-anchor-selector>
 
-			<div id="crop">
-				<div class="header">
-					<div class="header-title">Crop</div>
-					<paper-checkbox id="cropped" checked="[[boxState.cropped]]"></paper-checkbox>
-				</div>
-
-				<div id="crop-body">
-					<paper-input
-						id="cropLeft"
-						label="Left"
-						type="number"
-						min="0"
-						max="32"
-						step="0.01">
-					</paper-input>
-
-					<div class="layout vertical justified self-stretch" style="margin: 0 2px;">
-						<paper-input
-							id="cropTop"
-							label="Top"
-							type="number"
-							min="0"
-							max="18"
-							step="0.01">
-						</paper-input>
-
-						<paper-input
-							id="cropBottom"
-							label="Bottom"
-							type="number"
-							min="0"
-							max="18"
-							step="0.01">
-						</paper-input>
-					</div>
-
-					<paper-input
-						id="cropRight"
-						label="Right"
-						type="number"
-						min="0"
-						max="32"
-						step="0.01">
-					</paper-input>
-				</div>
-			</div>
+			<atem-crop
+				id="crop"
+				title="Crop"
+				enabled="[[boxState.cropped]]"
+				sideMin="0"
+				sideMax="32"
+				endMin="0"
+				endMax="18">
+			</atem-crop>
 
 			<div id="resets">
 				<paper-button on-tap="resetPosition">POS</paper-button>
