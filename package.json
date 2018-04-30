@@ -35,7 +35,7 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^1.8.4",
-    "electron-builder": "^20.10.0",
+    "electron-builder": "19.55.2",
     "eslint": "^4.10.0",
     "eslint-config-xo": "^0.20.1",
     "eslint-plugin-html": "^4.0.0",
