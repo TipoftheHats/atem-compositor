@@ -45,8 +45,8 @@
     "7zip-bin-mac": "^1.0.1"
   },
   "build": {
-    "appId": "org.tipofthehats.atem-controller",
-    "productName": "ATEM Controller",
+    "appId": "org.tipofthehats.atem-compositor",
+    "productName": "ATEM Compositor",
     "publish": [
       {
         "provider": "github",
