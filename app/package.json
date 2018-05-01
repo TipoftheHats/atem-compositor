@@ -1,6 +1,6 @@
 {
   "name": "atem-controller",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An alternative, Electron-based interface for some of the functions of a Blackmagic ATEM vision mixer.",
   "homepage": "https://github.com/tipofthehats/atem-controller",
   "dependencies": {
