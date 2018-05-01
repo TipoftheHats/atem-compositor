@@ -189,7 +189,7 @@ function regenerateMenu() {
 					minimizable: false,
 					maximizable: false,
 					autoHideMenuBar: true,
-					title: 'About ATEM Controller'
+					title: 'About ATEM Compositor'
 				});
 
 				aboutWindow.on('closed', () => {

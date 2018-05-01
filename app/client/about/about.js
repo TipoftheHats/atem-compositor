@@ -2,7 +2,7 @@ const shell = require('electron').shell;
 
 const version = require('../../server/util').version;
 
-document.getElementById('header').textContent = `ATEM Controller v${version}`;
+document.getElementById('header').textContent = `ATEM Compositor v${version}`;
 
 // Open links externally by default
 document.addEventListener('click', e => {

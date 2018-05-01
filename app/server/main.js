@@ -34,7 +34,7 @@ app.on('ready', async () => {
 		useContentSize: true,
 		resizable: false,
 		frame: true,
-		title: `ATEM Controller v${version}`
+		title: `ATEM Compositor v${version}`
 	});
 
 	// Quit when main window is closed.
