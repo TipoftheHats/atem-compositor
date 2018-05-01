@@ -54,11 +54,18 @@
 
 			this.addEventListener('change', this.take);
 			this.addEventListener('selected-item-changed', this.take);
+		}
+
+		connectedCallback() {
+			super.connectedCallback();
 
 			/* The "Input" event is needed to react to the number spinners being hit.
 			 * However, this event doesn't bubble up through the shadow boundary of paper-input.
 			 * Therefore, we need to pierce the shadow boundary and attach the listener directly to the input. */
-			this.shadowRoot.querySelectorAll('paper-input').forEach(paperInput => {
+			[
+				...this.shadowRoot.querySelectorAll('paper-input'),
+				...this.$.crop.shadowRoot.querySelectorAll('paper-input')
+			].forEach(paperInput => {
 				paperInput.shadowRoot.querySelector('input').addEventListener('input', () => {
 					this.take();
 				});
