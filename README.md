@@ -4,7 +4,7 @@
 [![Windows status](https://ci.appveyor.com/api/projects/status/9t70ak7ve2nhnjev?svg=true)](https://ci.appveyor.com/project/TipoftheHats/atem-controller)
 [![Linux & OSX status](https://travis-ci.org/TipoftheHats/atem-controller.svg?branch=master)](https://travis-ci.org/TipoftheHats/atem-controller)
 
-> See and configure the mute status of all your Behringer X32's channels (on every mixbus) in one place.
+> An alternative, Electron-based interface for some of the functions of a Blackmagic ATEM vision mixer.
 
 ![screenshot](screenshot.png)
 
@@ -14,11 +14,11 @@ ATEMs are powerful vision mixers. However, some of that power is hamstrung by an
 Specifically, the UI for SuperSources is not very operator-friendly. This program aims to be an alternative UI which smooths out some of the rough edges present in the official first-party ATEM Software Control interface.
 
 ## Features
-- Right now, not much. Work in progress.
+- All SuperSource box features of the stock UI.
+- Configure the X and Y position of SuperSource boxes using pixel values.
+- Size and position SuperSource boxes using one of 9 anchor points, instead of only being limited to a center anchor point. 
 
 ## Planned Features
-- Configure Super Source boxes with pixel values.
-- Configure Super Source boxes with top-left anchoring, instead of center anchoring.
 - Configure Upstream and Downstream keys with pixel values.
 - Configure Upstream and Downstream keys with top-left anchoring, instead of center anchoring.
 
