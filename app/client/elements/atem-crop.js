@@ -12,7 +12,7 @@
 
 		static get properties() {
 			return {
-				title: {
+				label: {
 					type: String,
 					value: 'Crop'
 				},
