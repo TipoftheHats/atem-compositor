@@ -37,11 +37,42 @@ module.exports = {
 		});
 
 		ipcMain.on('atem:takeSuperSourceBoxProperties', (event, {boxId, properties}) => {
-			log.debug(`Attempting to take SSBP #${boxId}...`);
+			const idString = `SSBP #${boxId}...`;
+			log.debug(`Attempting to take ${idString}...`);
 			atem.setSuperSourceBoxSettings(properties, boxId).then(() => {
-				log.debug(`Successfully took SSBP #${boxId}`);
+				log.debug(`Successfully took ${idString}`);
 			}).catch(e => {
-				log.error(`Failed to take SSBP #${boxId}:`, e);
+				log.error(`Failed to take ${idString}:`, e);
+			});
+		});
+
+		ipcMain.on('atem:takeUskDveSettings', (event, {mixEffect, upstreamKeyerId, properties}) => {
+			const idString = `USK DVE Settings #${mixEffect}:${upstreamKeyerId}`;
+			log.debug(`Attempting to take ${idString}...`);
+			atem.setUpstreamKeyerDVESettings(properties, mixEffect, upstreamKeyerId).then(() => {
+				log.debug(`Successfully took ${idString}`);
+			}).catch(e => {
+				log.error(`Failed to take ${idString}:`, e);
+			});
+		});
+
+		ipcMain.on('atem:takeUskOnAir', (event, {mixEffect, upstreamKeyerId, onAir}) => {
+			const idString = `USK onAir #${mixEffect}:${upstreamKeyerId}`;
+			log.debug(`Attempting to take ${idString}...`);
+			atem.setUpstreamKeyOnAir(onAir, mixEffect, upstreamKeyerId).then(() => {
+				log.debug(`Successfully took ${idString}`);
+			}).catch(e => {
+				log.error(`Failed to take ${idString}:`, e);
+			});
+		});
+
+		ipcMain.on('atem:takeUskFillSource', (event, {mixEffect, upstreamKeyerId, fillSource}) => {
+			const idString = `USK fill source #${mixEffect}:${upstreamKeyerId}`;
+			log.debug(`Attempting to take ${idString}...`);
+			atem.setUpstreamKeyerFillSource(fillSource, mixEffect, upstreamKeyerId).then(() => {
+				log.debug(`Successfully took ${idString}`);
+			}).catch(e => {
+				log.error(`Failed to take ${idString}:`, e);
 			});
 		});
 

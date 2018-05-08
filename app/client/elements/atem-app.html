@@ -7,6 +7,7 @@
 <link rel="import" href="../style/atem-controller-theme.html">
 <link rel="import" href="atem-status.html">
 <link rel="import" href="atem-supersource-box.html">
+<link rel="import" href="atem-usk-box.html">
 
 <dom-module id="atem-app">
 	<template>
@@ -32,28 +33,32 @@
 				width: 280px;
 			}
 
-			.box:first-of-type {
+			#boxProperties > :first-child {
 				margin-left: 0;
 			}
 
-			.box:last-of-type {
+			#boxProperties > :last-child {
 				margin-right: 0;
 			}
 
-			.box:nth-of-type(1) {
+			atem-supersource-box:nth-of-type(1) {
 				--atem-composition-box-header-color: #80A15F;
 			}
 
-			.box:nth-of-type(2) {
+			atem-supersource-box:nth-of-type(2) {
 				--atem-composition-box-header-color: #5FA186;
 			}
 
-			.box:nth-of-type(3) {
+			atem-supersource-box:nth-of-type(3) {
 				--atem-composition-box-header-color: #5F66A1;
 			}
 
-			.box:nth-of-type(4) {
+			atem-supersource-box:nth-of-type(4) {
 				--atem-composition-box-header-color: #A15F77;
+			}
+
+			atem-usk-box {
+				--atem-composition-box-header-color: #707070;
 			}
 		</style>
 
@@ -70,6 +75,11 @@
 					box-state="[[boxState]]">
 				</atem-supersource-box>
 			</template>
+
+			<atem-usk-box
+				class="box"
+				atem-state="[[atemState]]">
+			</atem-usk-box>
 		</div>
 
 		<paper-dialog id="updateDialog" modal on-iron-overlay-closed="_handleUpdateDialogClosed">

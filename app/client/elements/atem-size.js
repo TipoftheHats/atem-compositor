@@ -26,6 +26,10 @@
 		}
 
 		_calcSizePixels(size) {
+			if (typeof size !== 'number' || isNaN(size)) {
+				return;
+			}
+
 			const width = new Decimal(1920).times(size).dividedBy(1000);
 			const height = new Decimal(1080).times(size).dividedBy(1000);
 			return `${width.toDecimalPlaces(0)}x${height.toDecimalPlaces(0)}`;

@@ -23,6 +23,10 @@
 			return {
 				atemState: Object,
 				boxState: Object,
+				positionScaleFactor: {
+					type: Number,
+					value: 100
+				},
 				_xAnchor: Number,
 				_yAnchor: Number,
 				_usePixelValues: {
@@ -214,7 +218,7 @@
 			size = new Decimal(size).dividedBy(10);
 
 			const result = value.minus(size.times(maxValue)).plus(size.times(maxValue * 2).times(anchor));
-			return result.dividedBy(100).toDecimalPlaces(2).toNumber();
+			return result.dividedBy(this.positionScaleFactor).toDecimalPlaces(2).toNumber();
 		}
 
 		_anchorDecode(value, maxValue, anchor, size) {
@@ -226,7 +230,7 @@
 			const z1 = value.minus(size.times(maxValue * 2).times(anchor));
 			const z2 = value.plus(size.times(maxValue * 2).times(one.minus(anchor)));
 			const result = z1.plus(z2).dividedBy(2);
-			return result.times(100).toDecimalPlaces(0).toNumber();
+			return result.times(this.positionScaleFactor).toDecimalPlaces(0).toNumber();
 		}
 	}
 

@@ -1,0 +1,45 @@
+<link rel="import" href="atem-composition-box.html">
+<link rel="import" href="atem-composition-box-properties.html">
+<link rel="import" href="atem-usk-selector.html">
+
+<dom-module id="atem-usk-box">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+
+			#body {
+				background-color: #2A2A2A;
+				padding: 5px;
+				--atem-composition-box-properties-padding: 0 9px 13px;
+			}
+		</style>
+
+		<atem-composition-box
+			id="box"
+			label="USK DVE"
+			enabled="[[_calcEnabled(atemState, selectedMeIndex, selectedUskIndex)]]"
+			on-enabled-changed="takeEnabled">
+			<div id="body" slot="body">
+				<atem-usk-selector
+					atem-state="[[atemState]]"
+					selected-me-index="{{selectedMeIndex}}"
+					selected-usk-index="{{selectedUskIndex}}">
+				</atem-usk-selector>
+
+				<atem-composition-box-properties
+					atem-state="[[atemState]]"
+					box-state="[[_calcBoxState(atemState, selectedMeIndex, selectedUskIndex)]]"
+					position-scale-factor="1000"
+					on-reset-crop="resetCrop"
+					on-reset-position="resetPosition"
+					on-reset-size="resetSize"
+					on-take="takeProperties">
+				</atem-composition-box-properties>
+			</div>
+		</atem-composition-box>
+	</template>
+
+	<script src="atem-usk-box.js"></script>
+</dom-module>
