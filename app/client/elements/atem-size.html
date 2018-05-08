@@ -1,0 +1,36 @@
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<dom-module id="atem-size">
+	<template>
+		<style>
+			:host {
+				display: block;
+				position: relative;
+			}
+
+			#pixels {
+				bottom: -9px;
+				font-size: 12px;
+				opacity: 0.8;
+				position: absolute;
+				right: 0;
+				width: 76px;
+				text-align: center;
+			}
+		</style>
+
+		<paper-input
+			id="input"
+			label="Size"
+			type="number"
+			min="[[min]]"
+			max="[[max]]"
+			step="[[step]]"
+			value="{{value}}">
+		</paper-input>
+
+		<div id="pixels">[[_calcSizePixels(boxState.size)]]</div>
+	</template>
+
+	<script src="atem-size.js"></script>
+</dom-module>

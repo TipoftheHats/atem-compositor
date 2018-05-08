@@ -1,0 +1,41 @@
+<dom-module id="atem-composition-box">
+	<template>
+		<style include="atem-controller-theme">
+			:host {
+				@apply --layout-vertical;
+			}
+
+			#header {
+				--paper-checkbox-checkmark-color: var(--atem-composition-box-header-color);
+				background: var(--atem-composition-box-header-color);
+			}
+
+			#title {
+				font-size: 24px;
+				font-weight: 500;
+			}
+
+			#enabled {
+				@apply --layout-flex-none;
+				margin-left: 0.5em;
+			}
+
+			#body {
+				background-color: #404040;
+				padding: 0 14px 18px;
+				@apply --layout-vertical;
+			}
+		</style>
+
+		<div id="header" class="header">
+			<div id="title" class="header-title">[[label]]</div>
+			<paper-checkbox id="enabled" checked="{{enabled}}"></paper-checkbox>
+		</div>
+
+		<div id="body">
+			<slot name="body"></slot>
+		</div>
+	</template>
+
+	<script src="atem-composition-box.js"></script>
+</dom-module>

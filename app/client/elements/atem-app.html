@@ -6,7 +6,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../style/atem-controller-theme.html">
 <link rel="import" href="atem-status.html">
-<link rel="import" href="atem-supersource-box-properties.html">
+<link rel="import" href="atem-supersource-box.html">
 
 <dom-module id="atem-app">
 	<template>
@@ -27,27 +27,33 @@
 				left: 0;
 			}
 
-			atem-supersource-box-properties {
+			.box {
 				margin: 0 7px;
 				width: 280px;
 			}
 
-			atem-supersource-box-properties:first-of-type {
-				--atem-supersource-box-properties-header-color: #80A15F;
+			.box:first-of-type {
 				margin-left: 0;
 			}
 
-			atem-supersource-box-properties:nth-of-type(2) {
-				--atem-supersource-box-properties-header-color: #5FA186;
-			}
-
-			atem-supersource-box-properties:nth-of-type(3) {
-				--atem-supersource-box-properties-header-color: #5F66A1;
-			}
-
-			atem-supersource-box-properties:last-of-type {
-				--atem-supersource-box-properties-header-color: #A15F77;
+			.box:last-of-type {
 				margin-right: 0;
+			}
+
+			.box:nth-of-type(1) {
+				--atem-composition-box-header-color: #80A15F;
+			}
+
+			.box:nth-of-type(2) {
+				--atem-composition-box-header-color: #5FA186;
+			}
+
+			.box:nth-of-type(3) {
+				--atem-composition-box-header-color: #5F66A1;
+			}
+
+			.box:nth-of-type(4) {
+				--atem-composition-box-header-color: #A15F77;
 			}
 		</style>
 
@@ -57,11 +63,12 @@
 
 		<div id="boxProperties">
 			<template is="dom-repeat" items="[[atemState.video.superSourceBoxes]]" as="boxState">
-				<atem-supersource-box-properties
-					box-id="[[index]]"
+				<atem-supersource-box
+					class="box"
 					atem-state="[[atemState]]"
+					box-id="[[index]]"
 					box-state="[[boxState]]">
-				</atem-supersource-box-properties>
+				</atem-supersource-box>
 			</template>
 		</div>
 

@@ -1,0 +1,29 @@
+<link rel="import" href="atem-composition-box.html">
+<link rel="import" href="atem-composition-box-properties.html">
+
+<dom-module id="atem-supersource-box">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
+		<atem-composition-box
+			label="Box [[_addOne(boxId)]]"
+			enabled="[[boxState.enabled]]"
+			on-enabled-changed="takeEnabled">
+			<atem-composition-box-properties
+				slot="body"
+				atem-state="[[atemState]]"
+				box-state="[[boxState]]"
+				on-reset-crop="resetCrop"
+				on-reset-position="resetPosition"
+				on-reset-size="resetSize"
+				on-take="takeProperties">
+			</atem-composition-box-properties>
+		</atem-composition-box>
+	</template>
+
+	<script src="atem-supersource-box.js"></script>
+</dom-module>

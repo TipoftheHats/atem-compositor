@@ -1,12 +1,8 @@
 (function () {
 	'use strict';
 
-	const {ipcRenderer} = require('electron');
 	const Decimal = require('decimal.js');
 
-	const DEFAULT_ANCHOR = 0.5;
-	const DEFAULT_SIZE = 0.5;
-	const VIDEO_MODE_1080P5994 = 13;
 	const PIXEL_HEIGHT = 1080;
 	const PIXEL_WIDTH = 1920;
 	const ATEM_WIDTH = 48;
@@ -18,23 +14,18 @@
 	 * @customElement
 	 * @polymer
 	 */
-	class AtemSupersourceBoxProperties extends Polymer.Element {
+	class AtemCompositionBoxProperties extends Polymer.Element {
 		static get is() {
-			return 'atem-supersource-box-properties';
+			return 'atem-composition-box-properties';
 		}
 
 		static get properties() {
 			return {
 				atemState: Object,
-				boxId: Number,
 				boxState: Object,
-				videoMode: {
-					type: Number,
-					value: VIDEO_MODE_1080P5994
-				},
-				xAnchor: Number,
-				yAnchor: Number,
-				usePixelValues: {
+				_xAnchor: Number,
+				_yAnchor: Number,
+				_usePixelValues: {
 					type: Boolean,
 					value: true
 				}
@@ -43,7 +34,7 @@
 
 		static get observers() {
 			return [
-				'_boxStateChanged(boxState.*, usePixelValues, xAnchor, yAnchor)'
+				'_boxStateChanged(boxState.*, _usePixelValues, _xAnchor, _yAnchor)'
 			];
 		}
 
@@ -64,12 +55,40 @@
 			 * Therefore, we need to pierce the shadow boundary and attach the listener directly to the input. */
 			[
 				...this.shadowRoot.querySelectorAll('paper-input'),
-				...this.$.crop.shadowRoot.querySelectorAll('paper-input')
+				...this.$.crop.shadowRoot.querySelectorAll('paper-input'),
+				...this.$.size.shadowRoot.querySelectorAll('paper-input')
 			].forEach(paperInput => {
 				paperInput.shadowRoot.querySelector('input').addEventListener('input', () => {
 					this.take();
 				});
 			});
+		}
+
+		resetCrop() {
+			this.dispatchEvent(new CustomEvent('reset-crop', {
+				bubbles: true,
+				composed: true
+			}));
+		}
+
+		resetPosition() {
+			this.dispatchEvent(new CustomEvent('reset-position', {
+				bubbles: true,
+				composed: true
+			}));
+		}
+
+		resetSize() {
+			this.dispatchEvent(new CustomEvent('reset-size', {
+				bubbles: true,
+				composed: true
+			}));
+		}
+
+		resetAll() {
+			this.resetCrop();
+			this.resetPosition();
+			this.resetSize();
 		}
 
 		take() {
@@ -80,45 +99,8 @@
 			);
 		}
 
-		resetPosition() {
-			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
-				boxId: this.boxId,
-				properties: {
-					x: 0,
-					y: 0
-				}
-			});
-		}
-
-		resetSize() {
-			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
-				boxId: this.boxId,
-				properties: {
-					size: this._multiplyBy1000(DEFAULT_SIZE)
-				}
-			});
-		}
-
-		resetCrop() {
-			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
-				boxId: this.boxId,
-				properties: {
-					cropTop: 0,
-					cropBottom: 0,
-					cropLeft: 0,
-					cropRight: 0
-				}
-			});
-		}
-
-		resetAll() {
-			this.resetPosition();
-			this.resetSize();
-			this.resetCrop();
-		}
-
 		_take() {
-			if (this.xAnchor === 'undefined' || this.yAnchor === 'undefined') {
+			if (this._xAnchor === 'undefined' || this._yAnchor === 'undefined') {
 				return;
 			}
 
@@ -130,45 +112,47 @@
 			let x = this.$.x.value;
 			let y = this.$.y.value;
 
-			if (this.usePixelValues) {
+			if (this._usePixelValues) {
 				x = convertRange(x, [-PIXEL_WIDTH, PIXEL_WIDTH * 2], [-ATEM_WIDTH, ATEM_WIDTH]);
 				y = convertRange(y, [-PIXEL_HEIGHT, PIXEL_HEIGHT * 2], [ATEM_HEIGHT, -ATEM_HEIGHT]);
 			}
 
-			x = this.anchorDecode(x, 16, this.xAnchor, this.$.size.value);
-			y = this.anchorDecode(y, 9, this.yAnchor, this.$.size.value);
+			x = this._anchorDecode(x, 16, this._xAnchor, this.$.size.value);
+			y = this._anchorDecode(y, 9, this._yAnchor, this.$.size.value);
 
-			ipcRenderer.send('atem:takeSuperSourceBoxProperties', {
-				boxId: this.boxId,
-				properties: {
-					source: parseInt(this.$.source.selected, 10),
-					enabled: this.$.enabled.checked,
-					x,
-					y,
-					size: this._multiplyBy1000(this.$.size.value),
-					cropped: this.$.crop.enabled,
-					cropTop: this._multiplyBy1000(this.$.crop.top),
-					cropBottom: this._multiplyBy1000(this.$.crop.bottom),
-					cropLeft: this._multiplyBy1000(this.$.crop.left),
-					cropRight: this._multiplyBy1000(this.$.crop.right)
-				}
-			});
+			this.dispatchEvent(new CustomEvent('take', {
+				detail: {
+					properties: {
+						source: parseInt(this.$.source.selected, 10),
+						x,
+						y,
+						size: this._multiplyBy1000(this.$.size.value),
+						cropped: this.$.crop.enabled,
+						cropTop: this._multiplyBy1000(this.$.crop.top),
+						cropBottom: this._multiplyBy1000(this.$.crop.bottom),
+						cropLeft: this._multiplyBy1000(this.$.crop.left),
+						cropRight: this._multiplyBy1000(this.$.crop.right)
+					}
+				},
+				bubbles: true,
+				composed: true
+			}));
 		}
 
 		_boxStateChanged() {
-			if (!this.boxState || this.xAnchor === 'undefined' || this.yAnchor === 'undefined') {
+			if (!this.boxState || this._xAnchor === 'undefined' || this._yAnchor === 'undefined') {
 				return;
 			}
 
 			const newState = this.boxState;
 
-			let x = this.anchorEncode(newState.x, 16, this.xAnchor, newState.size);
-			if (this.usePixelValues) {
+			let x = this._anchorEncode(newState.x, 16, this._xAnchor, newState.size);
+			if (this._usePixelValues) {
 				x = convertRange(x, [-ATEM_WIDTH, ATEM_WIDTH], [-PIXEL_WIDTH, PIXEL_WIDTH * 2]);
 			}
 
-			let y = this.anchorEncode(newState.y, 9, this.yAnchor, newState.size);
-			if (this.usePixelValues) {
+			let y = this._anchorEncode(newState.y, 9, this._yAnchor, newState.size);
+			if (this._usePixelValues) {
 				y = convertRange(y, [ATEM_HEIGHT, -ATEM_HEIGHT], [-PIXEL_HEIGHT, PIXEL_HEIGHT * 2]);
 			}
 
@@ -179,10 +163,6 @@
 			this._setInputValue(this.$.crop.$.bottom, this._divideBy1000(newState.cropBottom));
 			this._setInputValue(this.$.crop.$.left, this._divideBy1000(newState.cropLeft));
 			this._setInputValue(this.$.crop.$.right, this._divideBy1000(newState.cropRight));
-		}
-
-		_addOne(number) {
-			return number + 1;
 		}
 
 		_divideBy100(number) {
@@ -228,13 +208,7 @@
 			return condition ? a : b;
 		}
 
-		_calcSizePixels(size) {
-			const width = new Decimal(1920).times(size).dividedBy(1000);
-			const height = new Decimal(1080).times(size).dividedBy(1000);
-			return `${width.toDecimalPlaces(0)}x${height.toDecimalPlaces(0)}`;
-		}
-
-		anchorEncode(value, maxValue, anchor = DEFAULT_ANCHOR, size = DEFAULT_SIZE) {
+		_anchorEncode(value, maxValue, anchor, size) {
 			value = new Decimal(value);
 			anchor = new Decimal(anchor);
 			size = new Decimal(size).dividedBy(10);
@@ -243,7 +217,7 @@
 			return result.dividedBy(100).toDecimalPlaces(2).toNumber();
 		}
 
-		anchorDecode(value, maxValue, anchor = DEFAULT_ANCHOR, size = DEFAULT_SIZE) {
+		_anchorDecode(value, maxValue, anchor, size) {
 			const one = new Decimal(1);
 			value = new Decimal(value);
 			anchor = new Decimal(anchor);
@@ -276,5 +250,5 @@
 		return result.toDecimalPlaces(2).toNumber();
 	}
 
-	customElements.define(AtemSupersourceBoxProperties.is, AtemSupersourceBoxProperties);
+	customElements.define(AtemCompositionBoxProperties.is, AtemCompositionBoxProperties);
 })();
