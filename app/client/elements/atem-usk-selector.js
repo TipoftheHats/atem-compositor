@@ -25,11 +25,13 @@
 				},
 				activeDveMe: {
 					type: Object,
+					notify: true,
 					computed: '_computeActiveDveMe(atemState)',
 					observer: '_activeDveMeChanged'
 				},
 				activeDveUsk: {
 					type: Object,
+					notify: true,
 					computed: '_computeActiveDveUsk(activeDveMe)',
 					observer: '_activeDveUskChanged'
 				}

@@ -17,8 +17,11 @@
 		static get properties() {
 			return {
 				atemState: Object,
-				boxId: Number,
-				boxState: Object
+				uskState: {
+					type: Object,
+					notify: true,
+					computed: '_computeUskState(atemState, selectedMeIndex, selectedUskIndex)'
+				}
 			};
 		}
 
@@ -91,7 +94,17 @@
 			});
 		}
 
-		_calcEnabled(atemState, selectedMeIndex, selectedUskIndex) {
+		acceptCover() {
+			ipcRenderer.send('atem:setUskAsDve', {
+				mixEffect: this.selectedMeIndex,
+				upstreamKeyerId: this.selectedUskIndex
+			});
+		}
+
+		_computeUskState(atemState, selectedMeIndex, selectedUskIndex) {
+			selectedMeIndex = parseInt(selectedMeIndex, 10);
+			selectedUskIndex = parseInt(selectedUskIndex, 10);
+
 			if (!atemState || typeof selectedMeIndex !== 'number' || typeof selectedUskIndex !== 'number') {
 				return;
 			}
@@ -106,20 +119,18 @@
 				return;
 			}
 
-			return uskState.onAir;
+			return uskState;
 		}
 
-		_calcBoxState(atemState, selectedMeIndex, selectedUskIndex) {
-			if (!atemState || typeof selectedMeIndex !== 'number' || typeof selectedUskIndex !== 'number') {
-				return;
+		_isDveTaken(activeDveUsk, selectedUsk) {
+			if (!activeDveUsk || !selectedUsk) {
+				return false;
 			}
 
-			const meState = atemState.video.ME[selectedMeIndex];
-			if (!meState) {
-				return;
-			}
+			return activeDveUsk !== selectedUsk;
+		}
 
-			const uskState = atemState.video.ME[selectedMeIndex].upstreamKeyers[selectedUskIndex];
+		_calcBoxState(uskState) {
 			if (!uskState) {
 				return;
 			}
@@ -135,6 +146,10 @@
 				cropLeft: uskState.dveSettings.maskLeft,
 				cropRight: uskState.dveSettings.maskRight
 			};
+		}
+
+		_addOne(number) {
+			return parseInt(number, 10) + 1;
 		}
 	}
 

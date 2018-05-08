@@ -1,42 +1,123 @@
-<link rel="import" href="atem-composition-box.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../style/atem-controller-theme.html">
 <link rel="import" href="atem-composition-box-properties.html">
+<link rel="import" href="atem-composition-box.html">
 <link rel="import" href="atem-usk-selector.html">
 
 <dom-module id="atem-usk-box">
 	<template>
-		<style>
+		<style include="atem-controller-theme">
 			:host {
 				display: block;
 			}
 
 			#body {
+				--atem-composition-box-properties-padding: 0 9px 13px;
 				background-color: #2A2A2A;
 				padding: 5px;
-				--atem-composition-box-properties-padding: 0 9px 13px;
+				position: relative;
+			}
+
+			#cover {
+				@apply --layout-center;
+				@apply --layout-vertical;
+				background: rgba(64, 64, 64, 0.95);
+				bottom: 0;
+				box-sizing: border-box;
+				height: 548px;
+				left: 0;
+				padding-top: 76px;
+				position: absolute;
+				width: 100%;
+				z-index: 1;
+			}
+
+			#cover-user {
+				@apply --layout-center-center;
+				@apply --layout-horizontal;
+				border: 1px solid #ADA351;
+				box-sizing: border-box;
+				font-size: 20px;
+				height: 41px;
+				margin-top: 6px;
+				text-align: center;
+				text-transform: uppercase;
+				width: 256px;
+			}
+
+			#cover-explain {
+				font-size: 16px;
+				line-height: 21px;
+				margin-top: 24px;
+				text-align: center;
+			}
+
+			#cover-accept {
+				--atem-background-color: #5E894F;
+				font-weight: 600;
+				height: 43px;
+				margin-top: 16px;
+				width: 131px;
+			}
+
+			.cover-yellow {
+				color: #FFE827;
+			}
+
+			.cover-orange {
+				color: #FF8F27;
+			}
+
+			[hidden] {
+				display: none !important;
 			}
 		</style>
 
 		<atem-composition-box
 			id="box"
 			label="USK DVE"
-			enabled="[[_calcEnabled(atemState, selectedMeIndex, selectedUskIndex)]]"
+			enabled="[[uskState.onAir]]"
 			on-enabled-changed="takeEnabled">
 			<div id="body" slot="body">
 				<atem-usk-selector
 					atem-state="[[atemState]]"
+					active-dve-me="{{activeDveMe}}"
+					active-dve-usk="{{activeDveUsk}}"
 					selected-me-index="{{selectedMeIndex}}"
 					selected-usk-index="{{selectedUskIndex}}">
 				</atem-usk-selector>
 
 				<atem-composition-box-properties
 					atem-state="[[atemState]]"
-					box-state="[[_calcBoxState(atemState, selectedMeIndex, selectedUskIndex)]]"
+					box-state="[[_calcBoxState(uskState)]]"
 					position-scale-factor="1000"
 					on-reset-crop="resetCrop"
 					on-reset-position="resetPosition"
 					on-reset-size="resetSize"
 					on-take="takeProperties">
 				</atem-composition-box-properties>
+
+				<div id="cover" hidden="[[!_isDveTaken(activeDveUsk, uskState)]]">
+					<div style="font-size: 20px;">DVE IN USE BY</div>
+					<div id="cover-user" class="cover-yellow">
+						M/E [[_addOne(activeDveMe.index)]] USK [[_addOne(activeDveUsk.upstreamKeyerId)]]
+					</div>
+
+					<div id="cover-explain">
+						To continue:<br/>
+						<span class="cover-yellow">M/E [[_addOne(activeDveMe.index)]] USK [[_addOne(activeDveUsk.upstreamKeyerId)]]</span> will need to be<br/>
+						changed to a <span class="cover-orange">Pattern Keyer</span>,<br/>
+						so that <span class="cover-yellow">M/E [[_addOne(selectedMeIndex)]] USK [[_addOne(selectedUskIndex)]]</span> can<br/>
+						take over the <span class="cover-orange">DVE</span>.
+					</div>
+
+					<paper-button
+						id="cover-accept"
+						class="atem-accept"
+						on-tap="acceptCover">
+						ACCEPT
+					</paper-button>
+				</div>
 			</div>
 		</atem-composition-box>
 	</template>
