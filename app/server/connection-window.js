@@ -11,7 +11,7 @@ const path = require('path');
 const {BrowserWindow, ipcMain} = require('electron');
 
 // Ours
-const recentConnections = require('./menu').recentConnections;
+const {recentConnections} = require('./menu');
 
 module.exports.init = function (mw) {
 	mainWindow = mw;

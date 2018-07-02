@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	const ipcRenderer = require('electron').ipcRenderer;
+	const {ipcRenderer} = require('electron');
 	const recentConnections = ipcRenderer.sendSync('getRecentConnectionsSync');
 
 	/**
@@ -34,9 +34,7 @@
 		}
 
 		connect() {
-			const ip = this.ip;
-			const port = parseInt(this.port, 10);
-			ipcRenderer.sendSync('submitIpPort', ip, port);
+			ipcRenderer.sendSync('submitIpPort', this.ip, parseInt(this.port, 10));
 		}
 
 		cancel() {

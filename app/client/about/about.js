@@ -1,6 +1,6 @@
-const shell = require('electron').shell;
+const {shell} = require('electron');
 
-const version = require('../../server/util').version;
+const {version} = require('../../server/util');
 
 document.getElementById('header').textContent = `ATEM Compositor v${version}`;
 

@@ -1,7 +1,7 @@
 'use strict';
 
 // Packages
-const autoUpdater = require('electron-updater').autoUpdater;
+const {autoUpdater} = require('electron-updater');
 const {ipcMain} = require('electron');
 const log = require('electron-log');
 
