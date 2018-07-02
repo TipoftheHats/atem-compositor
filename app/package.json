@@ -1,8 +1,8 @@
 {
-  "name": "atem-controller",
+  "name": "atem-conmpositor",
   "version": "0.2.0",
   "description": "An alternate UI for rapidly creating precise compositions on a Blackmagic ATEM video switcher.",
-  "homepage": "https://github.com/tipofthehats/atem-controller",
+  "homepage": "https://github.com/tipofthehats/atem-compositor",
   "dependencies": {
     "atem-connection": "^0.2.1",
     "decimal.js": "^10.0.1",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lange/atem-controller.git"
+    "url": "https://github.com/lange/atem-compositor.git"
   },
   "license": "MIT",
   "author": "Alex Van Camp <email@alexvan.camp>",

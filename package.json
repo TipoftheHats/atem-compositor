@@ -1,5 +1,5 @@
 {
-  "name": "atem-controller",
+  "name": "atem-compositor",
   "version": "0.2.0",
   "description": "An alternate UI for rapidly creating precise compositions on a Blackmagic ATEM video switcher.",
   "main": "index.js",
@@ -51,11 +51,12 @@
       {
         "provider": "github",
         "owner": "tipofthehats",
-        "repo": "atem-controller"
+        "repo": "atem-compositor"
       }
     ],
     "mac": {
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.utilities",
+      "type": "distribution"
     },
     "dmg": {
       "iconSize": 128,
