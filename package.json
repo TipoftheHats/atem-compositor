@@ -1,7 +1,7 @@
 {
   "name": "atem-controller",
   "version": "0.2.0",
-  "description": "An alternative, Electron-based interface for some of the functions of a Blackmagic ATEM vision mixer.",
+  "description": "An alternate UI for rapidly creating precise compositions on a Blackmagic ATEM video switcher.",
   "main": "index.js",
   "scripts": {
     "test": "npm run static",

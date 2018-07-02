@@ -4,7 +4,7 @@
 [![Windows status](https://ci.appveyor.com/api/projects/status/9t70ak7ve2nhnjev?svg=true)](https://ci.appveyor.com/project/TipoftheHats/atem-controller)
 [![Linux & OSX status](https://travis-ci.org/TipoftheHats/atem-controller.svg?branch=master)](https://travis-ci.org/TipoftheHats/atem-controller)
 
-> An alternative, Electron-based interface for some of the functions of a Blackmagic ATEM vision mixer.
+> An alternate UI for rapidly creating precise compositions on a Blackmagic ATEM video switcher.
 
 ![screenshot](screenshot.png)
 
