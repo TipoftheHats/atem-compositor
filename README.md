@@ -1,8 +1,7 @@
-# ATEM Controller
+# ATEM Compositor
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/lange/atem-controller.svg)](https://greenkeeper.io/)
-[![Windows status](https://ci.appveyor.com/api/projects/status/9t70ak7ve2nhnjev?svg=true)](https://ci.appveyor.com/project/TipoftheHats/atem-controller)
-[![Linux & OSX status](https://travis-ci.org/TipoftheHats/atem-controller.svg?branch=master)](https://travis-ci.org/TipoftheHats/atem-controller)
+[![Windows Status](https://ci.appveyor.com/api/projects/status/qr7b0at8kahdinow/branch/master?svg=true)](https://ci.appveyor.com/project/supportclass/atem-compositor/branch/master)
+[![Linux & OSX Status](https://travis-ci.com/TipoftheHats/atem-compositor.svg?branch=master)](https://travis-ci.com/TipoftheHats/atem-compositor)
 
 > An alternate UI for rapidly creating precise compositions on a Blackmagic ATEM video switcher.
 
@@ -27,8 +26,9 @@ Check the [Releases](https://github.com/tipofthehats/atem-controller/releases) p
 Once installed, the application will autoupdate.
 
 ## Credits
-Developed by [Alex Van Camp](https://twitter.com/vancamp)  
-Assets and additional design by [Chris Hanel](https://twitter.com/chrishanel)  
+- Developed by [Alex Van Camp](https://twitter.com/vancamp)
+- Assets and additional design by [Chris Hanel](https://twitter.com/chrishanel)
+- Feedback and support from [SuperFly.tv](http://superfly.tv/)
 
 ## License
 ATEM Controller is provided under the MIT license, which is available to read in the 
