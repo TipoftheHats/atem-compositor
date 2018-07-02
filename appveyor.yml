@@ -27,8 +27,7 @@ install:
 build_script:
   - node --version
   - npm --version
-  - npm test
-  - npm run dist
+  - npm test && npm run dist
 
 test: off
 
