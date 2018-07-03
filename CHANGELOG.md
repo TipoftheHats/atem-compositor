@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/TipoftheHats/atem-compositor/compare/v0.1.0...v0.2.0) (2018-07-03)
+
+
+### Bug Fixes
+
+* fix responsiveness of some inputs not being what it should be ([3f5bade](https://github.com/TipoftheHats/atem-compositor/commit/3f5bade))
+* **atem-crop:** prevent hover label from appearing ([b8ddb9c](https://github.com/TipoftheHats/atem-compositor/commit/b8ddb9c))
+* **package:** update atem-connection ([482c303](https://github.com/TipoftheHats/atem-compositor/commit/482c303))
+* **package:** update dev deps ([3272470](https://github.com/TipoftheHats/atem-compositor/commit/3272470))
+* **package:** use eslint 4 ([3c32ce6](https://github.com/TipoftheHats/atem-compositor/commit/3c32ce6))
+
+
+### Features
+
+* implement USK "DVE in use" cover/prompt ([d84223e](https://github.com/TipoftheHats/atem-compositor/commit/d84223e))
+* implement USK DVE controls ([9a659b6](https://github.com/TipoftheHats/atem-compositor/commit/9a659b6))
+
+
+
 <a name="0.1.0"></a>
 # 0.1.0 (2018-05-01)
 
