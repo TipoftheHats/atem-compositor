@@ -1,6 +1,6 @@
 {
-  "name": "atem-conmpositor",
-  "version": "0.2.0",
+  "name": "atem-compositor",
+  "version": "1.0.0",
   "description": "An alternate UI for rapidly creating precise compositions on a Blackmagic ATEM video switcher.",
   "homepage": "https://github.com/tipofthehats/atem-compositor",
   "dependencies": {
