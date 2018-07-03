@@ -7,7 +7,7 @@ const {ipcMain} = require('electron');
 
 const atem = new Atem();
 let mainWindow;
-let lastAtemStatus = '';
+let lastAtemStatus = 'offline';
 let stateChangesWaiting = false;
 
 atem.socket.on('disconnect', () => {

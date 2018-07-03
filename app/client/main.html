@@ -4,15 +4,18 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:500">
 	<script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+	<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 	<link rel="import" href="elements/atem-app.html">
-	<style>
-		body {
-			font-family: Roboto, sans-serif;
-			background: #303435;
-		}
-	</style>
+	<custom-style>
+		<style include="iron-flex iron-positioning">
+			body {
+				font-family: Roboto, sans-serif;
+				background: #303435;
+			}
+		</style>
+	</custom-style>
 </head>
-<body>
-	<atem-app></atem-app>
-</body>
+	<body class="fullbleed vertical layout">
+		<atem-app></atem-app>
+	</body>
 </html>

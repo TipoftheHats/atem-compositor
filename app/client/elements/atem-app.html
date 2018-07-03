@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/font-roboto/roboto.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
@@ -13,19 +14,22 @@
 	<template>
 		<style include="atem-controller-theme">
 			:host {
+				@apply --layout-flex;
 				@apply --layout-vertical;
-				display: block;
 				position: relative;
+			}
+
+			#status {
+				margin: 12px;
+			}
+
+			#pages {
+				@apply --layout-flex;
+				@apply --layout-vertical;
 			}
 
 			#boxProperties {
 				@apply --layout-horizontal;
-			}
-
-			#status {
-				position: absolute;
-				top: 0;
-				left: 0;
 			}
 
 			.box {
@@ -39,6 +43,16 @@
 
 			#boxProperties > :last-child {
 				margin-right: 0;
+			}
+
+			#disconnected {
+				@apply --layout-center-center;
+				@apply --layout-vertical;
+				@apply --layout-flex;
+				color: white;
+				font-size: 54px;
+				font-weight: bold;
+				text-align: center;
 			}
 
 			atem-supersource-box:nth-of-type(1) {
@@ -62,25 +76,31 @@
 			}
 		</style>
 
-		<atem-status id="status"></atem-status>
+		<atem-status id="status" status="{{status}}"></atem-status>
 
-		<h1>Hello world.</h1>
+		<iron-pages id="pages" attr-for-selected="data-status" selected="[[status]]" fallback-selection="disconnected">
+			<div id="boxProperties" data-status="connected">
+				<template is="dom-repeat" items="[[atemState.video.superSourceBoxes]]" as="boxState">
+					<atem-supersource-box
+						class="box"
+						atem-state="[[atemState]]"
+						box-id="[[index]]"
+						box-state="[[boxState]]">
+					</atem-supersource-box>
+				</template>
 
-		<div id="boxProperties">
-			<template is="dom-repeat" items="[[atemState.video.superSourceBoxes]]" as="boxState">
-				<atem-supersource-box
+				<atem-usk-box
 					class="box"
-					atem-state="[[atemState]]"
-					box-id="[[index]]"
-					box-state="[[boxState]]">
-				</atem-supersource-box>
-			</template>
+					atem-state="[[atemState]]">
+				</atem-usk-box>
+			</div>
 
-			<atem-usk-box
-				class="box"
-				atem-state="[[atemState]]">
-			</atem-usk-box>
-		</div>
+			<div id="disconnected" data-status="disconnected">
+				You are not connected to an ATEM.<br/>
+				Click the gear icon in the top left to connect to an ATEM.
+			</div>
+		</iron-pages>
+
 
 		<paper-dialog id="updateDialog" modal on-iron-overlay-closed="_handleUpdateDialogClosed">
 			<h2>Update Available</h2>

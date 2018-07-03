@@ -8,9 +8,9 @@
 	 * @customElement
 	 * @polymer
 	 */
-	class X32Settings extends Polymer.Element {
+	class ATEMSettings extends Polymer.Element {
 		static get is() {
-			return 'x32-settings';
+			return 'atem-settings';
 		}
 
 		static get properties() {
@@ -78,5 +78,5 @@
 		}
 	}
 
-	customElements.define(X32Settings.is, X32Settings);
+	customElements.define(ATEMSettings.is, ATEMSettings);
 })();

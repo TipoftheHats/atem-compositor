@@ -16,6 +16,7 @@
 				status: {
 					type: String,
 					reflectToAttribute: true,
+					notify: true,
 					value: 'offline'
 				}
 			};

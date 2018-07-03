@@ -31,6 +31,7 @@
     "paper-item": "PolymerElements/paper-item#^2.1.1",
     "web-animations-js": "web-animations/web-animations-js#^2.3.1",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#^2.1.1",
-    "paper-slider": "PolymerElements/paper-slider#^2.0.6"
+    "paper-slider": "PolymerElements/paper-slider#^2.0.6",
+    "iron-pages": "PolymerElements/iron-pages#^2.1.1"
   }
 }
