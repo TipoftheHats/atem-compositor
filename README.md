@@ -5,7 +5,7 @@
 
 > An alternate UI for rapidly creating precise compositions on a Blackmagic ATEM video switcher.
 
-![screenshot](screenshot.png)
+[![screenshot](media/readme_screenshot.png)](https://raw.githubusercontent.com/TipoftheHats/atem-compositor/master/media/full_screenshot.png)
 
 ## Motivation
 ATEMs are powerful vision mixers. However, some of that power is hamstrung by an at-times awkward UI.
