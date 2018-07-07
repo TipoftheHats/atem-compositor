@@ -41,7 +41,7 @@
 				slot="dropdown-content"
 				attr-for-selected="data-value"
 				selected="{{selectedUskIndex}}">
-				<template is="dom-repeat" items="[[activeDveMe.upstreamKeyers]]" as="usk">
+				<template is="dom-repeat" items="[[selectedMe.upstreamKeyers]]" as="usk">
 					<paper-item data-value$="[[usk.upstreamKeyerId]]">USK [[_plusOne(usk.upstreamKeyerId)]]</paper-item>
 				</template>
 			</paper-listbox>

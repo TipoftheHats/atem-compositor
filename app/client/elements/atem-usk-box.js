@@ -17,6 +17,10 @@
 		static get properties() {
 			return {
 				atemState: Object,
+				activeDveUsk: {
+					type: Object,
+					value: null
+				},
 				uskState: {
 					type: Object,
 					notify: true,

@@ -23,6 +23,11 @@
 					type: Number,
 					notify: true
 				},
+				selectedMe: {
+					type: Object,
+					notify: true,
+					computed: '_computeSelectedMe(selectedMeIndex, atemState)'
+				},
 				activeDveMe: {
 					type: Object,
 					notify: true,
@@ -36,6 +41,15 @@
 					observer: '_activeDveUskChanged'
 				}
 			};
+		}
+
+		_computeSelectedMe(selectedMeIndex, atemState) {
+			selectedMeIndex = parseInt(selectedMeIndex, 10);
+			if (!atemState || !atemState.video || !atemState.video.ME || typeof selectedMeIndex !== 'number') {
+				return;
+			}
+
+			return atemState.video.ME[selectedMeIndex];
 		}
 
 		_computeActiveDveMe(atemState) {

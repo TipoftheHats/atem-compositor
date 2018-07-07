@@ -56,7 +56,32 @@ module.exports = {
 			});
 		});
 
-		ipcMain.on('atem:takeUskOnAir', (event, {mixEffect, upstreamKeyerId, onAir}) => {
+		ipcMain.on('atem:takeUskOnAir', async (event, {mixEffect, upstreamKeyerId, onAir}) => {
+			mixEffect = parseInt(mixEffect, 10);
+			upstreamKeyerId = parseInt(upstreamKeyerId, 10);
+
+			if (isNaN(mixEffect) || isNaN(upstreamKeyerId)) {
+				return;
+			}
+
+			if (mixEffect < 0 || upstreamKeyerId < 0) {
+				return;
+			}
+
+			// If the DVE isn't taken, set this USK as the DVE.
+			let activeDveMe;
+			atem.state.video.ME.forEach(me => {
+				me.upstreamKeyers.forEach(usk => {
+					if (usk.mixEffectKeyType === AtemEnums.MixEffectKeyType.DVE) {
+						activeDveMe = me;
+					}
+				});
+			});
+			if (!activeDveMe) {
+				log.debug(`No DVE active, setting USK #${mixEffect}:${upstreamKeyerId} as the DVE...`);
+				await setUskAsDve({mixEffect, upstreamKeyerId});
+			}
+
 			const idString = `USK onAir #${mixEffect}:${upstreamKeyerId}`;
 			log.debug(`Attempting to take ${idString}...`);
 			atem.setUpstreamKeyerOnAir(onAir, mixEffect, upstreamKeyerId).then(() => {
@@ -76,50 +101,8 @@ module.exports = {
 			});
 		});
 
-		ipcMain.on('atem:setUskAsDve', async (event, {mixEffect, upstreamKeyerId}) => {
-			const idString = `USK #${mixEffect}:${upstreamKeyerId}`;
-			log.debug(`Attempting to set ${idString} as DVE...`);
-
-			let activeDveMe;
-			atem.state.video.ME.forEach(me => {
-				me.upstreamKeyers.forEach(usk => {
-					if (usk.mixEffectKeyType === AtemEnums.MixEffectKeyType.DVE) {
-						activeDveMe = me;
-					}
-				});
-			});
-
-			let activeDveUsk;
-			if (activeDveMe) {
-				activeDveMe.upstreamKeyers.forEach(usk => {
-					if (usk.mixEffectKeyType === AtemEnums.MixEffectKeyType.DVE) {
-						activeDveUsk = usk;
-					}
-				});
-			}
-
-			try {
-				if (activeDveMe && activeDveUsk) {
-					log.debug(`ME: ${activeDveMe.index}, USK: ${activeDveUsk.upstreamKeyerId}`);
-					atem.setUpstreamKeyerOnAir(false, activeDveMe.index, activeDveUsk.upstreamKeyerId);
-					await atem.setUpstreamKeyerType(
-						{keyType: AtemEnums.MixEffectKeyType.Pattern},
-						activeDveMe.index,
-						activeDveUsk.upstreamKeyerId
-					);
-				}
-
-				atem.setUpstreamKeyerType(
-					{keyType: AtemEnums.MixEffectKeyType.DVE},
-					mixEffect,
-					upstreamKeyerId
-				);
-				atem.setUpstreamKeyerOnAir(true, mixEffect, upstreamKeyerId);
-
-				log.debug(`Successfully set ${idString} as DVE`);
-			} catch (e) {
-				log.error(`Failed to set ${idString} as DVE:`, e);
-			}
+		ipcMain.on('atem:setUskAsDve', (event, data) => {
+			setUskAsDve(data);
 		});
 
 		// Send state updates at most 60 times a second.
@@ -134,16 +117,53 @@ module.exports = {
 	setIpPort(ip, port) {
 		atem.connect(ip, port);
 		setATEMConnectionStatus('connecting');
-		renewSubscriptions();
 	}
 };
 
-/**
- * Renews subscriptions with the X32 (they expire every 10s).
- * @returns {undefined}
- */
-function renewSubscriptions() {
+async function setUskAsDve({mixEffect, upstreamKeyerId}) {
+	const idString = `USK #${mixEffect}:${upstreamKeyerId}`;
+	log.debug(`Attempting to set ${idString} as DVE...`);
 
+	let activeDveMe;
+	atem.state.video.ME.forEach(me => {
+		me.upstreamKeyers.forEach(usk => {
+			if (usk.mixEffectKeyType === AtemEnums.MixEffectKeyType.DVE) {
+				activeDveMe = me;
+			}
+		});
+	});
+
+	let activeDveUsk;
+	if (activeDveMe) {
+		activeDveMe.upstreamKeyers.forEach(usk => {
+			if (usk.mixEffectKeyType === AtemEnums.MixEffectKeyType.DVE) {
+				activeDveUsk = usk;
+			}
+		});
+	}
+
+	try {
+		if (activeDveMe && activeDveUsk) {
+			log.debug(`ME: ${activeDveMe.index}, USK: ${activeDveUsk.upstreamKeyerId}`);
+			atem.setUpstreamKeyerOnAir(false, activeDveMe.index, activeDveUsk.upstreamKeyerId);
+			await atem.setUpstreamKeyerType(
+				{keyType: AtemEnums.MixEffectKeyType.Pattern},
+				activeDveMe.index,
+				activeDveUsk.upstreamKeyerId
+			);
+		}
+
+		atem.setUpstreamKeyerType(
+			{keyType: AtemEnums.MixEffectKeyType.DVE},
+			mixEffect,
+			upstreamKeyerId
+		);
+		atem.setUpstreamKeyerOnAir(true, mixEffect, upstreamKeyerId);
+
+		log.debug(`Successfully set ${idString} as DVE`);
+	} catch (e) {
+		log.error(`Failed to set ${idString} as DVE:`, e);
+	}
 }
 
 function sendToMainWindow(...args) {
