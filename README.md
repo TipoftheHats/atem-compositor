@@ -16,7 +16,7 @@ Specifically, the UI for SuperSources is not very operator-friendly. This progra
 - All SuperSource box features of the stock UI.
 - Configure the X and Y position of SuperSource boxes using pixel values.
 - Size and position SuperSource boxes using one of 9 anchor points, instead of only being limited to a center anchor point. 
-- Use a USE DVE as a sort of fifth SuperSource box
+- Use a USK DVE as a sort of fifth SuperSource box
 
 ## Planned Features
 - Configure all Upstream and Downstream keys with pixel values.
