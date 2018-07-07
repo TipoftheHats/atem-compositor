@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/TipoftheHats/atem-compositor/compare/v1.0.0...v1.1.0) (2018-07-07)
+
+
+### Bug Fixes
+
+* **ui:** add padding ([a60fd7f](https://github.com/TipoftheHats/atem-compositor/commit/a60fd7f))
+* **usk:** fix several cases where changing the USK DVE would not work ([fc655a0](https://github.com/TipoftheHats/atem-compositor/commit/fc655a0))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/TipoftheHats/atem-compositor/compare/v0.2.0...v1.0.0) (2018-07-03)
 
