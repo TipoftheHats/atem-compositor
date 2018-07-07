@@ -75,6 +75,10 @@
 			atem-usk-box {
 				--atem-composition-box-header-color: #707070;
 			}
+
+			#updateDialog {
+				color: black;
+			}
 		</style>
 
 		<atem-status id="status" status="{{status}}"></atem-status>
@@ -109,8 +113,8 @@
 			<p id="updateDialog-label"></p>
 
 			<div class="buttons">
-				<paper-button dialog-dismiss>No, Later</paper-button>
-				<paper-button dialog-confirm autofocus>Yes, Update & Restart Now</paper-button>
+				<paper-button class="atem-reject" dialog-dismiss raised>No, Later</paper-button>
+				<paper-button class="atem-accept" dialog-confirm autofocus raised>Yes, Update & Restart Now</paper-button>
 			</div>
 		</paper-dialog>
 	</template>
