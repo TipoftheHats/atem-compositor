@@ -23,7 +23,7 @@ Specifically, the UI for SuperSources is not very operator-friendly. This progra
 - Configure all Upstream and Downstream keys with top-left anchoring, instead of center anchoring.
 
 ## Installation
-Check the [Releases](https://github.com/tipofthehats/atem-controller/releases) page to grab the latest installer for your operating system.
+Check the [Releases](https://github.com/tipofthehats/atem-compositor/releases) page to grab the latest installer for your operating system.
 Once installed, the application will autoupdate.
 
 ## Credits
@@ -32,5 +32,5 @@ Once installed, the application will autoupdate.
 - Feedback and support from [SuperFly.tv](http://superfly.tv/)
 
 ## License
-ATEM Controller is provided under the MIT license, which is available to read in the 
-[LICENSE](https://github.com/tipofthehats/atem-controller/blob/master/LICENSE) file.
+ATEM Compositor is provided under the MIT license, which is available to read in the 
+[LICENSE](https://github.com/tipofthehats/atem-compositor/blob/master/LICENSE) file.
