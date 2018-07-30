@@ -215,7 +215,7 @@
 		_anchorEncode(value, maxValue, anchor, size) {
 			value = new Decimal(value);
 			anchor = new Decimal(anchor);
-			size = new Decimal(size).dividedBy(10);
+			size = new Decimal(size).dividedBy(1000 / this.positionScaleFactor);
 
 			const result = value.minus(size.times(maxValue)).plus(size.times(maxValue * 2).times(anchor));
 			return result.dividedBy(this.positionScaleFactor).toDecimalPlaces(2).toNumber();
